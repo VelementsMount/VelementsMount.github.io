@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>容器性能监控 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="“You can’t manage what you don’t measure” — W. Edwards Deming  近年来，以docker为首的容器技术在IT领域尤其是在云计算和微服务应用领域掀起了一股狂潮，成为当下特别流行的一种技术，它的广泛应用可能正好契合当今软件领域中的某些需求  它将应用及依赖的运行环境打包成镜像，消除了线上线下环境的差异，保证了应用环境的一致性； 作为一种轻">
+<meta name="keywords" content="container,docker,monitor">
+<meta property="og:type" content="article">
+<meta property="og:title" content="容器性能监控">
+<meta property="og:url" content="http://yoursite.com/2016/08/07/容器性能监控的副本/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="“You can’t manage what you don’t measure” — W. Edwards Deming  近年来，以docker为首的容器技术在IT领域尤其是在云计算和微服务应用领域掀起了一股狂潮，成为当下特别流行的一种技术，它的广泛应用可能正好契合当今软件领域中的某些需求  它将应用及依赖的运行环境打包成镜像，消除了线上线下环境的差异，保证了应用环境的一致性； 作为一种轻">
+<meta property="og:image" content="http://pic55.nipic.com/file/20141208/19462408_171130083000_2.jpg">
+<meta property="og:image" content="http://yoursite.com/Users/velementsmount/Desktop/屏幕快照%202017-08-31%20下午3.18.46.png">
+<meta property="og:image" content="http://yoursite.com/Users/velementsmount/Desktop/屏幕快照%202017-08-31%20下午3.31.01.png">
+<meta property="og:image" content="http://yoursite.com/Users/velementsmount/Desktop/屏幕快照%202017-08-31%20下午3.30.43.png">
+<meta property="og:image" content="http://yoursite.com/Users/velementsmount/Desktop/屏幕快照%202017-08-31%20下午3.28.36.png">
+<meta property="og:image" content="http://yoursite.com/Users/velementsmount/Desktop/屏幕快照%202017-08-31%20下午3.36.04.png">
+<meta property="og:image" content="http://yoursite.com/Users/velementsmount/Desktop/屏幕快照%202017-08-31%20下午3.36.53.png">
+<meta property="og:image" content="http://yoursite.com/Users/velementsmount/Desktop/屏幕快照%202017-09-01%20下午3.06.02.png">
+<meta property="og:image" content="http://yoursite.com/Users/velementsmount/Desktop/屏幕快照%202017-09-01%20下午3.39.34.png">
+<meta property="og:image" content="http://yoursite.com/Users/velementsmount/Desktop/Screen%20Shot%202017-08-22%20at%205.14.29%20PM.png">
+<meta property="og:image" content="http://yoursite.com/Users/velementsmount/Desktop/屏幕快照%202017-09-01%20下午5.36.39.png">
+<meta property="og:image" content="http://yoursite.com/Users/velementsmount/Desktop/屏幕快照%202017-09-01%20下午5.44.46.png">
+<meta property="og:updated_time" content="2017-09-03T18:22:22.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="容器性能监控">
+<meta name="twitter:description" content="“You can’t manage what you don’t measure” — W. Edwards Deming  近年来，以docker为首的容器技术在IT领域尤其是在云计算和微服务应用领域掀起了一股狂潮，成为当下特别流行的一种技术，它的广泛应用可能正好契合当今软件领域中的某些需求  它将应用及依赖的运行环境打包成镜像，消除了线上线下环境的差异，保证了应用环境的一致性； 作为一种轻">
+<meta name="twitter:image" content="http://pic55.nipic.com/file/20141208/19462408_171130083000_2.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-容器性能监控的副本" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/08/07/容器性能监控的副本/" class="article-date">
+  <time datetime="2016-08-07T15:23:23.000Z" itemprop="datePublished">2016-08-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      容器性能监控
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="http://pic55.nipic.com/file/20141208/19462408_171130083000_2.jpg" alt="cadvisor.PNG"></p>
+<blockquote>
+<p><strong>“You can’t manage what you don’t measure”</strong></p>
+<p><strong>— W. Edwards Deming</strong></p>
+</blockquote>
+<p>近年来，以docker为首的容器技术在IT领域尤其是在云计算和微服务应用领域掀起了一股狂潮，成为当下特别流行的一种技术，它的广泛应用可能正好契合当今软件领域中的某些需求</p>
+<ul>
+<li>它将应用及依赖的运行环境打包成镜像，消除了线上线下环境的差异，保证了应用环境的一致性；</li>
+<li>作为一种轻量级的虚拟化技术，它以很小的代价却提供了不错的资源隔离和限制能力；</li>
+<li>还有它构建一次，到处运行，提高了容器的跨平台性的同时，大大简化了持续集成、测试和发布的过程……</li>
+</ul>
+<p>这些优势已经给当今软件的开发、测试、部署、运维带来了一场变革，同时也大大方便了软件的获取、学习、使用及交流。这种容器化技术带来极大便利性的同时，也给传统的运维带了冲击，尤其是对容器化集群的监控，给传统的运维带来了挑战。</p>
+<p>正如开篇提到的：你无法管理你不能测量的事物，这句话导出了应用监控的精髓。在devops的世界里，禁止上线没有受到监控的软件，因为你不知道它会做什么以及别人会对它做什么，那么对于大量使用容器技术的我们如何对容器进行监控就成了我们必须要解决的问题。</p>
+<h2 id="容器性能监控的解决方案"><a href="#容器性能监控的解决方案" class="headerlink" title="容器性能监控的解决方案"></a><a name="容器性能监控的解决方案"></a>容器性能监控的解决方案</h2><p>在<strong>容器时代</strong>，传统的那些耳熟能详的监控软件如Zabbix不能提供方便的容器化服务的监控体验，相反的许多新生的开源监控项目则将对容器的支持放到了关键特性的位置，如InfluxDB，Prometheus等获得了广泛的认可。</p>
+<p>在DockerCon EU 2015上，Swisscom AG的云方案架构师Brian Christner阐述了“Docker监控”的概况，分享了这方面的最佳实践和Docker stats API的指南，并对比了三个流行的监控方案：cAdvisor、“cAdvisor + InfluxDB + Grafana”以及Prometheus。其中Prometheus是整体化的开源监控软件，但它本身对容器信息的收集能力以及图表展示能力相比其他专用开源组件较弱，通常在实际实施的时候依然会将它组合为『cAdvisor + Prometheus』或<strong>『cAdvisor + Prometheus + Grafana』</strong>的方式使用。</p>
+<p>由于我们后端大量采用java和nodejs两种开发语言，java后端采用springcloud支撑的一套微服务架构，我们需要将开源的监控软件与本公司的实际相结合。坐而言不如起而行，接下来会详细介绍『cAdvisor + Prometheus + Grafana』这种解决方案在本公司的本土化过程及对其的扩展</p>
+<h2 id="监控系统的搭建和使用"><a href="#监控系统的搭建和使用" class="headerlink" title="监控系统的搭建和使用"></a><a name="监控系统的搭建和使用"></a>监控系统的搭建和使用</h2><p>一般性能监控系统会包含5大组件：</p>
+<ul>
+<li><strong>探针</strong>：安装在应用中收集应用性能的包</li>
+<li><strong>收集器</strong>：收集探针发送过来的数据或者主动拉取应用性能数据的工具</li>
+<li><strong>存储介质</strong>：存储收集到的应用性能数据的介质</li>
+<li><strong>展示器</strong>：将应用性能数据按照使用者的要求展示的工具</li>
+<li><strong>预警器</strong>：当某一监测值超过预定阈值向devops成员发出预警</li>
+</ul>
+<h3 id="监控组件简要介绍"><a href="#监控组件简要介绍" class="headerlink" title="监控组件简要介绍"></a>监控组件简要介绍</h3><h4 id="prometheus"><a href="#prometheus" class="headerlink" title="prometheus"></a>prometheus</h4><p>prometheus是一个开源的时序数据收集和处理的服务软件，它其实包含监控组件中的：收集器，存储和展示器，它所需的探针有相应的exporter和client library exporter组件提供，预警器可以由配套的alertmanager软件提供，它既可以监控各个主机的CPU、内存、文件等资源的使用情况，也可以监控服务的健康状况、网络流量，它既可以监控mysql、redis的使用状况，也可以定制监控信息，它是一个整体化监控软件。</p>
+<h4 id="cAdvisor"><a href="#cAdvisor" class="headerlink" title="cAdvisor"></a>cAdvisor</h4><p>cAdvisor会收集、聚集、处理并导出运行中容器的信息,它可以为容器用户提供了了解运行时容器资源使用和性能特征的方法，安装后你可以通过web界面直接看到相应机器上容器中应用的资源使用和性能特征。它包含了监控组件中的前4大组件，但是它只能监控容器资源的使用和性能，因为它叫container advisor。</p>
+<h4 id="grafana"><a href="#grafana" class="headerlink" title="grafana"></a>grafana</h4><p>grafana是一个开源的领先的能非常漂亮的展示时序数据分析结果的软件。它是使用js所写的一个软件，支持多种数据源，支持多种图形面板展示，它也提供了预警功能，是一个非常棒的图形展示组件。</p>
+<h4 id="exporter"><a href="#exporter" class="headerlink" title="exporter"></a>exporter</h4><p>下面介绍的是各种度量数据的导出器</p>
+<ul>
+<li><strong>node_exporter</strong>: 监控一个主机的CPU、内存等资源的使用状况</li>
+<li><strong>blackbox_exporter</strong>：监控各个服务的健康状况</li>
+<li><strong>mysqld_exporter</strong>: 监控mysql的使用状况</li>
+<li><strong>redis_exporter</strong>: 监控redis的使用状况</li>
+<li><strong>SNMP_exporter</strong>: 监控网络流量</li>
+</ul>
+<h4 id="监控系统的搭建"><a href="#监控系统的搭建" class="headerlink" title="监控系统的搭建"></a>监控系统的搭建</h4><p>我们需要建立一个全面的容器性能监控系统，所以我们选择的方案是『cAdvisor + Prometheus + Grafana』，下面我们将讲解整个监控系统的搭建。</p>
+<ul>
+<li><strong><em>安装cAdvisor container</em></strong></li>
+</ul>
+<p>通过docker-compose.yml的方式安装</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">version: &apos;2&apos;</div><div class="line">services:</div><div class="line">  cadvisor:</div><div class="line">    image: google/cadvisor</div><div class="line">    restart: always</div><div class="line">    ports:</div><div class="line">      - 8080:8080</div><div class="line">    volumes:</div><div class="line">      - /:/rootfs:ro</div><div class="line">      - /var/run:/var/run:rw</div><div class="line">      - /sys:/sys:ro</div><div class="line">      - /var/lib/docker/:/var/lib/docker:ro</div></pre></td></tr></table></figure>
+<p>通过docker命令行的方式安装</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">docker run \</div><div class="line">  --volume=/:/rootfs:ro \</div><div class="line">  --volume=/var/run:/var/run:rw \</div><div class="line">  --volume=/sys:/sys:ro \</div><div class="line">  --volume=/var/lib/docker/:/var/lib/docker:ro \</div><div class="line">  --publish=8080:8080 \</div><div class="line">  --detach=true \</div><div class="line">  --name=cadvisor \</div><div class="line">  --restart=always \</div><div class="line">  google/cadvisor:latest</div></pre></td></tr></table></figure>
+<p>如果你在本机上安装的你可以通过<a href="http://localhost:8080访问cadvisor网页界面，你将看到![cadvisor.PNG](/Users/velementsmount/Desktop/屏幕快照" target="_blank" rel="external">http://localhost:8080访问cadvisor网页界面，你将看到![cadvisor.PNG](/Users/velementsmount/Desktop/屏幕快照</a> 2017-08-31 上午11.16.33.png)</p>
+<ul>
+<li><strong><em>安装prometheus</em></strong></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">version: &apos;2&apos;</div><div class="line">services:</div><div class="line">  prometheus:</div><div class="line">    image: prom/prometheus</div><div class="line">    ports:</div><div class="line">      - 9090:9090</div><div class="line">    volumes:</div><div class="line">      - /etc/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml</div></pre></td></tr></table></figure>
+<p>prometheus.yml这个文件可以先配置成简单的监控prometheus自己，并把它放在/etc/prometheus/prometheus.yml这个路径。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">global:</div><div class="line">  scrape_interval:     15s </div><div class="line">  evaluation_interval: 15s </div><div class="line">  external_labels:</div><div class="line">      monitor: &apos;codelab-monitor&apos;</div><div class="line">scrape_configs:</div><div class="line">  - job_name: &apos;prometheus&apos;</div><div class="line">    static_configs:</div><div class="line">      - targets: [&apos;localhost:9090&apos;]</div></pre></td></tr></table></figure>
+<p>如果是在本机安装的你可以通过<a href="http://localhost:9090访问prometheus界面，你可以看到![prometheus.PNG](/Users/velementsmount/Desktop/屏幕快照" target="_blank" rel="external">http://localhost:9090访问prometheus界面，你可以看到![prometheus.PNG](/Users/velementsmount/Desktop/屏幕快照</a> 2017-08-31 上午11.33.45.png)你可以点击菜单栏中的Status下拉菜单中的Target标签看到监控的任务</p>
+<ul>
+<li><strong><em>安装grafana</em></strong></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">version: &apos;2&apos;</div><div class="line">services:</div><div class="line">  grafana:</div><div class="line">    image: grafana/grafana</div><div class="line">    container_name: grafana</div><div class="line">    ports:</div><div class="line">     - &quot;3000:3000&quot;</div></pre></td></tr></table></figure>
+<p>你可以通过<a href="http://localhost:3000访问grafana界面![grafana.PNG](/Users/velementsmount/Desktop/屏幕快照" target="_blank" rel="external">http://localhost:3000访问grafana界面![grafana.PNG](/Users/velementsmount/Desktop/屏幕快照</a> 2017-08-31 上午11.40.24.png)，输入默认用户名：admin密码：admin，可以进入管理界面</p>
+<ul>
+<li><strong><em>安装node_exporter</em></strong></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">docker run -d -p 9100:9100 \</div><div class="line">  -v &quot;/proc:/host/proc:ro&quot; \</div><div class="line">  -v &quot;/sys:/host/sys:ro&quot; \</div><div class="line">  -v &quot;/:/rootfs:ro&quot; \</div><div class="line">  --net=&quot;host&quot; \</div><div class="line">  quay.io/prometheus/node-exporter \</div><div class="line">    --collector.procfs /host/proc \</div><div class="line">    --collector.sysfs /host/sys \</div><div class="line">    --collector.filesystem.ignored-mount-points &quot;^/(sys|proc|dev|host|etc)($|/)&quot;</div></pre></td></tr></table></figure>
+<ul>
+<li><strong><em>安装blackbox-exporter</em></strong></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">docker run -d \</div><div class="line">	 --restart=always \</div><div class="line">	 -p 9115:9115 \</div><div class="line">	 --name blackbox_exporter </div><div class="line">	 prom/blackbox-exporter:latest</div></pre></td></tr></table></figure>
+<p>其他的exporter可以根据自己的需求进行安装，其中cAdvisor和node-exporter需要在你需要监控的每个机器上安装，prometheus、blackbox-exporter、grafana部署一份就可以了。经过以上的安装部署，我们已经把容器性能监控的轮廓搭建好了，但是我们还没有将它们连接起来，下面我们将讲解它们的连接和使用</p>
+<h3 id="监控系统的连接和使用"><a href="#监控系统的连接和使用" class="headerlink" title="监控系统的连接和使用"></a>监控系统的连接和使用</h3><p>我们首先需要将各种数据导出器、cAdvisor中的数据导入prometheus，因为prometheus采用的是主动拉取目标主机的监控数据，所以只需要让prometheus知道被监控的目标主机在哪就行，我们只需将Prometheus的配置文件改成下面这样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">global:</div><div class="line">  scrape_interval:     15s </div><div class="line">  evaluation_interval: 15s </div><div class="line">  external_labels:</div><div class="line">      monitor: &apos;codelab-monitor&apos;</div><div class="line">scrape_configs:</div><div class="line">  - job_name: &apos;prometheus&apos;</div><div class="line">    static_configs:</div><div class="line">      - targets: [&apos;localhost:9090&apos;]</div><div class="line">  - job_name: &apos;node_exporter&apos;</div><div class="line">    static_configs:</div><div class="line">      - targets: [&apos;192.168.77.153:9100&apos;]</div><div class="line">  - job_name: &apos;cadvisor&apos;</div><div class="line">    static_configs:</div><div class="line">      - targets: [&apos;192.168.77.153:8080&apos;]</div><div class="line">  - job_name: &apos;blackbox&apos;</div><div class="line">    metrics_path: /probe</div><div class="line">    params:</div><div class="line">      module: [http_2xx]  # Look for a HTTP 200 response.</div><div class="line">    static_configs:</div><div class="line">      - targets:</div><div class="line">        - https://www.baidu.com</div><div class="line">    relabel_configs:</div><div class="line">      - source_labels: [__address__]</div><div class="line">        target_label: __param_target</div><div class="line">      - source_labels: [__param_target]</div><div class="line">        target_label: instance</div><div class="line">      - target_label: __address__</div><div class="line">        replacement: 192.168.77.153:9115  # Blackbox exporter</div></pre></td></tr></table></figure>
+<p><strong><em>注意</em></strong>：192.168.77.153 是本机的局域网地址，因为我们都是通过容器启动，所以不要使用localhost。</p>
+<p>重启后，你可以点击菜单栏中的Status下拉菜单中的Target标签看到监控的任务，确认是否启动成功。接下来我们需要将prometheus里面的数据导入grafana，grafana可以作为一个所有数据集中展示的地方，因为很可能未来我们的数据来源不一定来自一个prometheus甚至可能是其他的存储库</p>
+<p>我们先登录到grafana管理界面，创建第一个数据源，<img src="/Users/velementsmount/Desktop/屏幕快照 2017-08-31 下午3.18.46.png" alt="datasource.PNG">数据源创建好了以后我们需要创建dashboard面板，我们直接去<a href="https://grafana.com/dashboards?search=cAdvisor" target="_blank" rel="external">grafana</a>官网搜索cAdvisor的dashboard和node exporter的dashboard。<img src="/Users/velementsmount/Desktop/屏幕快照 2017-08-31 下午3.31.01.png" alt="cadvisor.PNG"> <img src="/Users/velementsmount/Desktop/屏幕快照 2017-08-31 下午3.30.43.png" alt="NodeExporter.PNG">并将它们分别导入grafana。<img src="/Users/velementsmount/Desktop/屏幕快照 2017-08-31 下午3.28.36.png" alt="importDashboard.PNG"></p>
+<p>导入成功后我们将会看到监控的数据<img src="/Users/velementsmount/Desktop/屏幕快照 2017-08-31 下午3.36.04.png" alt="NodeExporterDashboard.PNG"><img src="/Users/velementsmount/Desktop/屏幕快照 2017-08-31 下午3.36.53.png" alt="cAdvisorDashboard.PNG"></p>
+<p>在garafana的官网面板中我们没有找到black-exporter相关的面板，所以我们需要书写一些查询语句将我们监控www.baidu.com这个网址的健康状况的信息反映出来，这会在下一章作介绍。</p>
+<p>到现在为止我们已经将整个容器监控系统搭建起来，我们的监控系统具有监控各个服务器CPU、内存、文件等资源使用状况，服务器中每隔容器的CPU、内存、文件等资源使用状况以及对我们开发的应用进行健康检查的能力。这非常的完美，是的，我们开发的应用终于可以上线了。这一切看似完美的背后仍然存在一点小小的缺憾，比如我想知道各个微服务的被调用情况，每次请求的延迟、正确与否，一段时间内的请求量……；仔细观察，我们还会发现一个问题，就是在prometheus的配置文件中我们监控的地址都是固定的，我们知道在docker容器集群中，这些地址是随时变动的，还有我们增加一个服务就需要去更改prometheus的配置文件，that is too bad！我需要prometheus可以动态更改监控的地址，动态增加监控的服务，I need more！</p>
+<h2 id="自定义监控数据"><a href="#自定义监控数据" class="headerlink" title="自定义监控数据"></a><a name="自定义监控数据"></a>自定义监控数据</h2><p>需求是永无止境的，我们一定要在正确的时间做正确的事情。prometheus作为容器监控系统，它的功能是强大的，我们可以通过它提供的客户端开发包，自定义我们需要监控的性能数据；我们也可以通过它提供的file_sd_configs配置动态更改监控的地址，动态增加监控的服务，这正好解决了上面我们提出的2个明确的需求。下面我们就开启这一场神奇的coding之旅吧。</p>
+<h3 id="prometheus的数据模型"><a href="#prometheus的数据模型" class="headerlink" title="prometheus的数据模型"></a>prometheus的数据模型</h3><p><strong>prometheus</strong>将相同的 metrics(指标名称) 和 labels(一个或多个标签) 组成一条时间序列</p>
+<p><strong>metrics</strong>一般是给监测对象起一个名字。</p>
+<p><strong>labels</strong>一般是给监测对象提供一些额外信息的键值对，对一条时间序列不同维度的识别，promQL将通过这些标签很容易的过滤和聚合这些时间序列数据。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">api\_http\_requests_total&#123;method=&quot;POST&quot;, handler=&quot;/messages&quot;&#125;</div></pre></td></tr></table></figure>
+<p>存入数据库中时还会自动为它添加一个时间戳标记，所以一个时序序列是大量不同时间的相同指标相同标签的数据集合。</p>
+<p>如果以传统数据库的理解来看这条语句，则可以考虑 http_requests_total是表名，标签是字段，而timestamp是主键，还有一个float64字段是值了。（Prometheus里面所有值都是按float64存储）</p>
+<h3 id="Prometheus的指标类型"><a href="#Prometheus的指标类型" class="headerlink" title="Prometheus的指标类型"></a>Prometheus的指标类型</h3><p>Prometheus的客户端软件包中提供了4中核心的指标类型，这四中类型仅仅在客户端存在区别，在服务端存储时转换为无类型的时间序列。</p>
+<ul>
+<li><strong>Counter</strong></li>
+</ul>
+<p>累加器或者称作计数器，统计的指标值只能增加，不能减少，增加值不一定为1，可以用于请求的总数、访问时间的总和。</p>
+<ul>
+<li><strong>Guage</strong></li>
+</ul>
+<p>指数器，指示当前统计的指标值的大小，值可以增大也可以减小，主要用户统计当前cpu的温度、最近一次访问的耗时。</p>
+<ul>
+<li><strong>Histogram</strong></li>
+</ul>
+<p>直方图，统计指标值分散在不同区间的个数。相当于针对Guage做了再一次加工，统计的时候就将分散在不同区间的个数统计好了。比如统计每次访问的耗时数的分布情况，用Histogram可以统计小于200ms的访问次数，小于300毫秒的次数，小于500毫秒的次数……</p>
+<ul>
+<li><strong>Summary</strong></li>
+</ul>
+<p>概述，它的作用我们通过一个例子来说明：比如我们监测的指标值为每次请求的响应时间，用Summary可以统计5min内95%的请求的响应平均用时，5min内80%的请求的响应用时……。我们也可以统计10min内60%的请求的响应的平均用时……其实Summary也是针对Counter或者Guage做的再次加工，只是在记录到数据库之前它计算好了再存入数据库。它和Histogram针对同一监测指标的区别是Summary将次数作为横坐标，Histogram是将次数作为纵坐标。</p>
+<p>通过上面的介绍我们知道最基本的类型其实就是Counter和Guage两种，其他的类型都是在它们基础上的再加工。了解了这4中类型，我们才能选择正确的类型统计我们需要监测的数据</p>
+<h3 id="promQL基础"><a href="#promQL基础" class="headerlink" title="promQL基础"></a>promQL基础</h3><p>我们使用过sql，我们都能感受到sql语言查询功能的强大之处，promQL的查询功能也异常强大，它也具有运算、过滤、分组等功能，它还提供大量的内置函数，可以让我们更加容易对时序数据进行操作。当我们学会了promQL我们就能很顺利的将我们想要展示的数据按照我们的要求完美的展示出来。</p>
+<p>promQL是非常简单的，在开始学习promQL之前我们先看一些简单的promQL查询表达式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http_requests_total</div></pre></td></tr></table></figure>
+<p>返回监测指标名为http_requests_total从服务启动到现在的时序序列（相同指标名和标签的，时间戳不同的集合）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http_requests_total&#123;job=&quot;apiserver&quot;, handler=&quot;/api/comments&quot;&#125;</div></pre></td></tr></table></figure>
+<p>返回标签job=”apiserver”, handler=”/api/comments”，监测指标名为http_requests_total的时序序列。大括号相当于sql的where</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http_requests_total&#123;job=&quot;apiserver&quot;, handler=&quot;/api/comments&quot;&#125;[5m]</div></pre></td></tr></table></figure>
+<p>返回5分钟内的标签为job=”apiserver”, handler=”/api/comments”，监测指标名为http_requests_total的时序序列。中括号相当于对时间加了一个维度的限制。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http_requests_total&#123;job=~&quot;server$&quot;&#125;</div></pre></td></tr></table></figure>
+<p>返回标签job的值为以server结尾的指标名为http_requests_total的时序序列。=~后面接一个正则表达式，表示此标签的值匹配后面的正则表达式，那么!~就是不匹配后面的正则</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http_requests_total offset 5m</div></pre></td></tr></table></figure>
+<p>返回的是5分钟之前的请求总数</p>
+<p>下面会介绍4个函数的使用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">rate(http_requests_total[5m])</div></pre></td></tr></table></figure>
+<p>http_requests_total记录的是请求的总数的时序序列，http_requests_total[5m]记录的是5分钟内请求的总数的时序序列，rate是计算平均率的函数既计算每秒的平均增加数。所以这个promQL的作用是计算5分钟内平均每秒的请求数。如果我们记录指标有</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">http_requests_total&#123;instance=“127.0.0.1”,job=&quot;prometheus&quot;&#125;</div><div class="line">http_requests_total&#123;instance=“127.0.0.2”,job=&quot;prometheus&quot;&#125;</div><div class="line">http_requests_total&#123;instance=“127.0.0.2”,job=&quot;monitor&quot;&#125;</div></pre></td></tr></table></figure>
+<p>三种，那么结果rate(http_requests_total[5m])得到的结果也是三种，因为他们的标签不一样，属于3种时间序列，所以我们结果会有3种。如果我想得到这三个时间序列的每秒总请求数则可以</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sum(rate(http_requests_total[5m]))</div></pre></td></tr></table></figure>
+<p>sum()是求和函数，可以将不同维度的时间序列聚合，得到的结果只有一种时间序列。现在我想将127.0.0.1和127.0.0.2这两个实例的请求数分别聚合既我想得到每台机器的每秒请求总数，可以使用promQL的分组功能</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sum(rate(http_requests_total[5m])) by (instance)</div></pre></td></tr></table></figure>
+<p>这样我们得到的结果又两种时间序列。现在我想得到3中时间序列中每秒请求数最多的一个该怎么计算呢？如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">topk(1,http_requests_total[5m])</div></pre></td></tr></table></figure>
+<p>如果我想知道http_requests_total有多少种指标，可以</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">count(http_requests_total)</div></pre></td></tr></table></figure>
+<p>结果返回值为3.</p>
+<h3 id="promQL高级"><a href="#promQL高级" class="headerlink" title="promQL高级"></a>promQL高级</h3><p>我们已经对promQL已经有了一定程度的了解，但是如果我们想使用的更加得心应手，则还需要对promQL有更加深入的了解。</p>
+<h5 id="data-types"><a href="#data-types" class="headerlink" title="data types"></a>data types</h5><p>在Prometheus中有3种数据类型</p>
+<ul>
+<li><strong>Instant vector</strong> 即时向量，你可以看做没有加中括号时间限制的时序序列，它反映的是一个时间点的值组成的时间序列，如</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http_requests_total</div></pre></td></tr></table></figure>
+<ul>
+<li><strong>Range vector</strong> 范围向量，你可以看做带有中括号时间限制的时序序列，它反映的是一段时间范围内的值组成的时间序列，时间单位可以是：s、m、h、d、w、y，如</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">rate(http_requests_total[5m])</div></pre></td></tr></table></figure>
+<ul>
+<li><strong>Scalar</strong> 标量，你可以把它看成一个float64位的数值</li>
+</ul>
+<h5 id="隐式标签"><a href="#隐式标签" class="headerlink" title="隐式标签"></a>隐式标签</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http_requests_total = &#123;__name__ = &apos;http_requests_total&apos;&#125;</div></pre></td></tr></table></figure>
+<p>以上2个查询表达式是等价的</p>
+<h5 id="向量匹配"><a href="#向量匹配" class="headerlink" title="向量匹配"></a>向量匹配</h5><p>promQL中的数据类型是可以相互运算的即可以+,-,*,/……，它们的运算分为3种</p>
+<ul>
+<li><strong>标量 oprator 标量</strong></li>
+<li><strong>向量 oprator 标量</strong></li>
+<li><strong>向量 oprator 向量</strong></li>
+</ul>
+<p>前面2种我们是很容易理解的，第3种它内部是如何计算的呢？接着基础篇的例子</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http_requests_total - http_requests_total offset 5m</div></pre></td></tr></table></figure>
+<p>这个例子返回的是5分钟内请求的数量，返回的结果又几种呢？3种。因为它是根据标签来进行匹配的，即操作符两边的标签完全相同（不包括隐式标签）的两个时间序列才进行运算。</p>
+<h3 id="prometheus-grafana-zuul的监控"><a href="#prometheus-grafana-zuul的监控" class="headerlink" title="prometheus+grafana+zuul的监控"></a>prometheus+grafana+zuul的监控</h3><p>我们后端的微服务采用的是springcloud支撑的微服务架构，我们的网关为zuul，所以任何请求都会经过zuul来做转发，我们监控的思路是，在zuul网关层增加一个过滤器，记录每个请求的模块，每个请求的路径，每个请求的方法，每个请求的响应时间，每个请求的次数。然后将这些数据导入到prometheus，grafana再将prometheus中的数据以图表的形式展示出来，思路很清晰。这个问题的难点在于怎样将zuul中的度量数据导出和怎样在grafana中以合适的方式展示出来。下面我们就来探讨这2个问题的解决方法。</p>
+<h4 id="导出zuul中的度量数据"><a href="#导出zuul中的度量数据" class="headerlink" title="导出zuul中的度量数据"></a>导出zuul中的度量数据</h4><p>我们使用的是spring框架，spring框架中已经有了一个spring-acurator模块，引入这个模块，我们就可以在/metrics的路径下得到json格式的度量数据，我们可以使用spring-acurator自带的CounterService和GuageService将我们需要记录的数据记录到/metrics<br>路径下。但是我们知道prometheus不接受json格式的数据，它接受的是纯文本格式的数据，如何将json格式的数据转换为prometheus接受的纯文本格式我们可以参考Johan Zietsman写的<a href="http://blog.monkey.codes/actuator-and-prometheus/" target="_blank" rel="external">Actuator and Prometheus</a>,<img src="/Users/velementsmount/Desktop/屏幕快照 2017-09-01 下午3.06.02.png" alt="spring-acurator-endpoint.PNG">我们自定义了spring-acurator一个新的endpoint：/prometheus,在这个页面我们导出了prometheus可以接受的度量数据，似乎一切都很美好，但是我们深入的应用之后发现，spring-acurator提供的CounterService和GuageService实在是太简陋了，它完全无法和prometheus提供的客户端的包相比</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">compile(&apos;io.prometheus:simpleclient:0.0.26&apos;)</div><div class="line">compile(&apos;io.prometheus:simpleclient_common:0.0.26&apos;)</div></pre></td></tr></table></figure>
+<p>spring-acurator中的CounterService记录counter类型每次只能增加1，完全成了一个计数器，如果我想统计所有请求的总时间，它就无法胜任。所以最后我们选择是使用prometheus的客户端的包做数据统计，扩展spring-acurator的抽象接口AbstractEndpoint和AbstractEndpointMvcAdapter将这些度量数据暴露成一个Endpoint。最终我们达到了我们想要的结果。</p>
+<p>将度量的数据导入prometheus是相当的简单，修改一下prometheus的配置。<br>将prometheus中的数据导入grafana也很简单，增加一个prometheus的数据源。</p>
+<h4 id="在grafana中展示数据"><a href="#在grafana中展示数据" class="headerlink" title="在grafana中展示数据"></a>在grafana中展示数据</h4><p>grafana的使用可以到<a href="http://docs.grafana.org/" target="_blank" rel="external">grafana官网</a>学习。<br>我们仅仅讨论这样书写promQL表达式将我们的数据按照我们需要的展示出来，比如我想统计1分钟内每个服务的可用性。promQL如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">(1+(sum(http_response_time_milliseconds_count&#123;status=&quot;200&quot;,kubernetes_namespace=&quot;$namespace&quot;&#125;) by (module)-sum(http_response_time_milliseconds_count&#123;status=&quot;200&quot;,kubernetes_namespace=&quot;$namespace&quot;&#125; offset 1m) by (module)))* 100/(1+ (sum(http_response_time_milliseconds_count&#123;status=~&quot;200|400|500&quot;,kubernetes_namespace=&quot;$namespace&quot;&#125;)by (module) -sum(http_response_time_milliseconds_count&#123;status=~&quot;200|400|500&quot;,kubernetes_namespace=&quot;$namespace&quot;&#125; offset 1m)by (module) ))</div></pre></td></tr></table></figure>
+<p>每个服务的吞吐率：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sum(rate(http_response_time_milliseconds_count&#123;kubernetes_namespace=&quot;$namespace&quot;&#125;[1m])) by (module)</div></pre></td></tr></table></figure>
+<p>还有错误调用Top10等等，在这里就不一一列举。最终我们得到的结果为<img src="/Users/velementsmount/Desktop/屏幕快照 2017-09-01 下午3.39.34.png" alt="grafana.PNG"></p>
+<h3 id="prometheus-eureka的集成"><a href="#prometheus-eureka的集成" class="headerlink" title="prometheus+eureka的集成"></a>prometheus+eureka的集成</h3><p>Prometheus因为是监控容器的性能软件，它已经集成了很多常见服务集群目标主机的动态发现机制，比如：k8s，consul等等的注册发现，但是偏偏就没有包含springcloud组件中eureka的注册发现机制。我们知道，作为docker容器化部署，尤其在容器化集群中，服务的地址不是固定的，所以我们必须要解决动态获取eureka中zuul网关的地址。我们可以通过eureka主机上的路径/eureka/apps/ZUUL-SERVER拉取到多个zuul网关的实例的ip地址，并将其配置到prometheus中。怎样打通这样一个链路呢？我们发现了primetheus中有一个file_sd_configs的标签，prometheus可以动态去读取这个文件，获取里面的目标地址。</p>
+<p>找到了解决问题的方法，那么我们就开始实践。</p>
+<h4 id="将zuul网关的地址打印到文件中"><a href="#将zuul网关的地址打印到文件中" class="headerlink" title="将zuul网关的地址打印到文件中"></a>将zuul网关的地址打印到文件中</h4><p>我们使用node.js写了一个脚本，每隔10s去拉去一下eureka上zuul网关的ip地址，将其答应到config.json文件中。nodejs的代码就不在此展示了，最终打印到config.json中的内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[&#123;&quot;targets&quot;:[&quot;192.168.77.153:8041&quot;,&quot;192.168.77.164:8041&quot;,&quot;192.168.77.156:8041&quot;]&#125;]</div></pre></td></tr></table></figure>
+<p>启动这个脚本文件</p>
+<h4 id="配置将prometheus动态读取文件内容"><a href="#配置将prometheus动态读取文件内容" class="headerlink" title="配置将prometheus动态读取文件内容"></a>配置将prometheus动态读取文件内容</h4><p>prometheus中的配置文件内容为</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">file_sd_configs:    #file dynamic discovery</div><div class="line">  - files:</div><div class="line">    - /config/config.json</div><div class="line">  	refresh_interval: 30s</div></pre></td></tr></table></figure>
+<p>修改配置文件以后，重新启动，在Status菜单下的targets标签下可以观察到prometheus动态拉取到了zuul的地址</p>
+<h2 id="prometheus查询性能的优化"><a href="#prometheus查询性能的优化" class="headerlink" title="prometheus查询性能的优化"></a>prometheus查询性能的优化</h2><p>当我们以为一切都万事大吉的时候，在使用过程中，我们发现了一个有点严重的问题，就是grafana的dashboard监控面板需要很长一段时间才能将我们需要的监测结果给显示出来，<br>这是非常致命的，因为我们这个prometheus是一个实时监控平台，如果需要花费3-5分钟才将数据显示出来就失去了实时性的意义了，所以对我们来说这是一个必须要解决的问题。下面我们将我们解决问题的过程呈现出来。</p>
+<p>prometheus使用的是本地磁盘存储，它非常耗内存和cpu，生产上的数据是相当庞大的，当我们写了一个性能非常不好promQL时，prometheus将进行大量的计算，虽然prometheus已经针对时序数据的计算做了优化，但是仍然阻止不了我们写出性能很差的查询语句。</p>
+<h3 id="第一阶段优化"><a href="#第一阶段优化" class="headerlink" title="第一阶段优化"></a>第一阶段优化</h3><p>我们一开始给指标名起名的格式为：指标功能<em>模块名</em>访问方法<em>路径，没有打label，最后数据展示的时候我们大量使用{<strong>name</strong> =~ “.*api.*get</em>.*“}去正则过滤，最后导致的结果<img src="/Users/velementsmount/Desktop/Screen Shot 2017-08-22 at 5.14.29 PM.png" alt="PrometheusLoad.PNG">,prometheus那台机器直接cpu负载将不下来，grafana刷新一次就发一次请求到prometheus去计算，当结果有没有出来，我们有刷新页面，形成了一个恶性循环。最后我们的改进措施是，将模块名，请求方法，返回状态吗，请求类型都设置为标签，指标名仅仅指代测量的指标。</p>
+<h3 id="第二阶段的优化"><a href="#第二阶段的优化" class="headerlink" title="第二阶段的优化"></a>第二阶段的优化</h3><p>上面的优化措施过后，我们的查询性能大大提高，在开发和测试环境中已经非常流畅的能显示出图片，但是当我们的机器到了生产上面之后，我们发现生产的数据量很巨大，grafana的显示速度还算可以，但是prometheus那台机器的cpu负载仍然很高，<img src="/Users/velementsmount/Desktop/屏幕快照 2017-09-01 下午5.36.39.png" alt="prometheusLoad.PNG">,机器的负载仍然很高，我们发现可能是我们生产上是抓取的时间间隔缩短，同时抓取的数据量非常庞大，为了改善性能，我们将大量我们没有使用到的自定义监测数据删掉不予记录，prometheus抓取的数据大大减少。结果<img src="/Users/velementsmount/Desktop/屏幕快照 2017-09-01 下午5.44.46.png" alt="prometheusLoad.PNG"><br>真的非常完美。</p>
+<h2 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a><a name="写在最后"></a>写在最后</h2><p>经过以上的搭建过程和开发过程，我们已经非常完美的搭建了一个实时的容器性能监控系统，能够很好的完成我们对生产上应用的监控。在本片文章中还有很多我们没有详述的，如prometheus的配置、grafana的使用、预警的设置、grafana模板的使用……大家可以自己去探索，学无止境。我们是银天下devops团队，如果你有任何疑问，可以直接联系我们！</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/08/07/容器性能监控的副本/" data-id="cj752nd4k0001at6s834s0k5g" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/container-docker-monitor/">container,docker,monitor</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/09/03/hello-world/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Hello World
+        
+      </div>
+    </a>
+  
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/container-docker-monitor/">container,docker,monitor</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/container-docker-monitor/" style="font-size: 10px;">container,docker,monitor</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/09/03/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2016/08/07/容器性能监控的副本/">容器性能监控</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
