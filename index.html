@@ -48,9 +48,9 @@
       </nav>
       <nav id="sub-nav">
         
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="Flux RSS"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Rechercher"></a>
       </nav>
       <div id="search-form-wrap">
         <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
@@ -71,21 +71,10 @@
   <div class="article-inner">
     
     
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/09/04/容器性能监控的副本/">容器性能监控</a>
-    </h1>
-  
-
-      </header>
-    
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="容器性能监控"><a href="#容器性能监控" class="headerlink" title="容器性能监控"></a>容器性能监控</h1><hr>
-<p>###内容导航</p>
-<h4 id="容器性能监控的解决方案"><a href="#容器性能监控的解决方案" class="headerlink" title="容器性能监控的解决方案"></a><a href="#容器性能监控的解决方案">容器性能监控的解决方案</a></h4><h4 id="监控系统的搭建和使用"><a href="#监控系统的搭建和使用" class="headerlink" title="监控系统的搭建和使用"></a><a href="#监控系统的搭建和使用">监控系统的搭建和使用</a></h4><h4 id="自定义监控数据"><a href="#自定义监控数据" class="headerlink" title="自定义监控数据"></a><a href="#自定义监控数据">自定义监控数据</a></h4><h4 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a><a href="#写在最后">写在最后</a></h4><hr>
+        <p>title: 容器性能监控</p>
+<h1 id="容器性能监控"><a href="#容器性能监控" class="headerlink" title="容器性能监控"></a>容器性能监控</h1><p>[TOC]</p>
 <blockquote>
 <p><strong>“You can’t manage what you don’t measure”</strong></p>
 <p><strong>— W. Edwards Deming</strong></p>
@@ -98,10 +87,10 @@
 </ul>
 <p>这些优势已经给当今软件的开发、测试、部署、运维带来了一场变革，同时也大大方便了软件的获取、学习、使用及交流。这种容器化技术带来极大便利性的同时，也给传统的运维带了冲击，尤其是对容器化集群的监控，给传统的运维带来了挑战。</p>
 <p>正如开篇提到的：你无法管理你不能测量的事物，这句话导出了应用监控的精髓。在devops的世界里，禁止上线没有受到监控的软件，因为你不知道它会做什么以及别人会对它做什么，那么对于大量使用容器技术的我们如何对容器进行监控就成了我们必须要解决的问题。</p>
-<h2 id="容器性能监控的解决方案-1"><a href="#容器性能监控的解决方案-1" class="headerlink" title="容器性能监控的解决方案"></a><a name="容器性能监控的解决方案"></a>容器性能监控的解决方案</h2><p>在<strong>容器时代</strong>，传统的那些耳熟能详的监控软件如Zabbix不能提供方便的容器化服务的监控体验，相反的许多新生的开源监控项目则将对容器的支持放到了关键特性的位置，如InfluxDB，Prometheus等获得了广泛的认可。</p>
+<h2 id="容器性能监控的解决方案"><a href="#容器性能监控的解决方案" class="headerlink" title="容器性能监控的解决方案"></a><a name="容器性能监控的解决方案"></a>容器性能监控的解决方案</h2><p>在<strong>容器时代</strong>，传统的那些耳熟能详的监控软件如Zabbix不能提供方便的容器化服务的监控体验，相反的许多新生的开源监控项目则将对容器的支持放到了关键特性的位置，如InfluxDB，Prometheus等获得了广泛的认可。</p>
 <p>在DockerCon EU 2015上，Swisscom AG的云方案架构师Brian Christner阐述了“Docker监控”的概况，分享了这方面的最佳实践和Docker stats API的指南，并对比了三个流行的监控方案：cAdvisor、“cAdvisor + InfluxDB + Grafana”以及Prometheus。其中Prometheus是整体化的开源监控软件，但它本身对容器信息的收集能力以及图表展示能力相比其他专用开源组件较弱，通常在实际实施的时候依然会将它组合为『cAdvisor + Prometheus』或<strong>『cAdvisor + Prometheus + Grafana』</strong>的方式使用。</p>
 <p>由于我们后端大量采用java和nodejs两种开发语言，java后端采用springcloud支撑的一套微服务架构，我们需要将开源的监控软件与本公司的实际相结合。坐而言不如起而行，接下来会详细介绍『cAdvisor + Prometheus + Grafana』这种解决方案在本公司的本土化过程及对其的扩展</p>
-<h2 id="监控系统的搭建和使用-1"><a href="#监控系统的搭建和使用-1" class="headerlink" title="监控系统的搭建和使用"></a><a name="监控系统的搭建和使用"></a>监控系统的搭建和使用</h2><p>一般性能监控系统会包含5大组件：</p>
+<h2 id="监控系统的搭建和使用"><a href="#监控系统的搭建和使用" class="headerlink" title="监控系统的搭建和使用"></a><a name="监控系统的搭建和使用"></a>监控系统的搭建和使用</h2><p>一般性能监控系统会包含5大组件：</p>
 <ul>
 <li><strong>探针</strong>：安装在应用中收集应用性能的包</li>
 <li><strong>收集器</strong>：收集探针发送过来的数据或者主动拉取应用性能数据的工具</li>
@@ -158,7 +147,7 @@
 <p>导入成功后我们将会看到监控的数据<img src="/Users/velementsmount/Desktop/屏幕快照 2017-08-31 下午3.36.04.png" alt="NodeExporterDashboard.PNG"><img src="/Users/velementsmount/Desktop/屏幕快照 2017-08-31 下午3.36.53.png" alt="cAdvisorDashboard.PNG"></p>
 <p>在garafana的官网面板中我们没有找到black-exporter相关的面板，所以我们需要书写一些查询语句将我们监控www.baidu.com这个网址的健康状况的信息反映出来，这会在下一章作介绍。</p>
 <p>到现在为止我们已经将整个容器监控系统搭建起来，我们的监控系统具有监控各个服务器CPU、内存、文件等资源使用状况，服务器中每隔容器的CPU、内存、文件等资源使用状况以及对我们开发的应用进行健康检查的能力。这非常的完美，是的，我们开发的应用终于可以上线了。这一切看似完美的背后仍然存在一点小小的缺憾，比如我想知道各个微服务的被调用情况，每次请求的延迟、正确与否，一段时间内的请求量……；仔细观察，我们还会发现一个问题，就是在prometheus的配置文件中我们监控的地址都是固定的，我们知道在docker容器集群中，这些地址是随时变动的，还有我们增加一个服务就需要去更改prometheus的配置文件，that is too bad！我需要prometheus可以动态更改监控的地址，动态增加监控的服务，I need more！</p>
-<h2 id="自定义监控数据-1"><a href="#自定义监控数据-1" class="headerlink" title="自定义监控数据"></a><a name="自定义监控数据"></a>自定义监控数据</h2><p>需求是永无止境的，我们一定要在正确的时间做正确的事情。prometheus作为容器监控系统，它的功能是强大的，我们可以通过它提供的客户端开发包，自定义我们需要监控的性能数据；我们也可以通过它提供的file_sd_configs配置动态更改监控的地址，动态增加监控的服务，这正好解决了上面我们提出的2个明确的需求。下面我们就开启这一场神奇的coding之旅吧。</p>
+<h2 id="自定义监控数据"><a href="#自定义监控数据" class="headerlink" title="自定义监控数据"></a><a name="自定义监控数据"></a>自定义监控数据</h2><p>需求是永无止境的，我们一定要在正确的时间做正确的事情。prometheus作为容器监控系统，它的功能是强大的，我们可以通过它提供的客户端开发包，自定义我们需要监控的性能数据；我们也可以通过它提供的file_sd_configs配置动态更改监控的地址，动态增加监控的服务，这正好解决了上面我们提出的2个明确的需求。下面我们就开启这一场神奇的coding之旅吧。</p>
 <h3 id="prometheus的数据模型"><a href="#prometheus的数据模型" class="headerlink" title="prometheus的数据模型"></a>prometheus的数据模型</h3><p><strong>prometheus</strong>将相同的 metrics(指标名称) 和 labels(一个或多个标签) 组成一条时间序列</p>
 <p><strong>metrics</strong>一般是给监测对象起一个名字。</p>
 <p><strong>labels</strong>一般是给监测对象提供一些额外信息的键值对，对一条时间序列不同维度的识别，promQL将通过这些标签很容易的过滤和聚合这些时间序列数据。</p>
@@ -254,12 +243,12 @@
 <p>prometheus使用的是本地磁盘存储，它非常耗内存和cpu，生产上的数据是相当庞大的，当我们写了一个性能非常不好promQL时，prometheus将进行大量的计算，虽然prometheus已经针对时序数据的计算做了优化，但是仍然阻止不了我们写出性能很差的查询语句。</p>
 <h3 id="第一阶段优化"><a href="#第一阶段优化" class="headerlink" title="第一阶段优化"></a>第一阶段优化</h3><p>我们一开始给指标名起名的格式为：指标功能<em>模块名</em>访问方法<em>路径，没有打label，最后数据展示的时候我们大量使用{<strong>name</strong> =~ “.*api.*get</em>.*“}去正则过滤，最后导致的结果<img src="/Users/velementsmount/Desktop/Screen Shot 2017-08-22 at 5.14.29 PM.png" alt="PrometheusLoad.PNG">,prometheus那台机器直接cpu负载将不下来，grafana刷新一次就发一次请求到prometheus去计算，当结果有没有出来，我们有刷新页面，形成了一个恶性循环。最后我们的改进措施是，将模块名，请求方法，返回状态吗，请求类型都设置为标签，指标名仅仅指代测量的指标。</p>
 <h3 id="第二阶段的优化"><a href="#第二阶段的优化" class="headerlink" title="第二阶段的优化"></a>第二阶段的优化</h3><p>上面的优化措施过后，我们的查询性能大大提高，在开发和测试环境中已经非常流畅的能显示出图片，但是当我们的机器到了生产上面之后，我们发现生产的数据量很巨大，grafana的显示速度还算可以，但是prometheus那台机器的cpu负载仍然很高，<img src="/Users/velementsmount/Desktop/屏幕快照 2017-09-01 下午5.36.39.png" alt="prometheusLoad.PNG">,机器的负载仍然很高，我们发现可能是我们生产上是抓取的时间间隔缩短，同时抓取的数据量非常庞大，为了改善性能，我们将大量我们没有使用到的自定义监测数据删掉不予记录，prometheus抓取的数据大大减少。结果<img src="/Users/velementsmount/Desktop/屏幕快照 2017-09-01 下午5.44.46.png" alt="prometheusLoad.PNG"><br>真的非常完美。</p>
-<h2 id="写在最后-1"><a href="#写在最后-1" class="headerlink" title="写在最后"></a><a name="写在最后"></a>写在最后</h2><p>经过以上的搭建过程和开发过程，我们已经非常完美的搭建了一个实时的容器性能监控系统，能够很好的完成我们对生产上应用的监控。在本片文章中还有很多我们没有详述的，如prometheus的配置、grafana的使用、预警的设置、grafana模板的使用……大家可以自己去探索，学无止境。我们是银天下devops团队，如果你有任何疑问，可以直接联系我们！</p>
+<h2 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a><a name="写在最后"></a>写在最后</h2><p>经过以上的搭建过程和开发过程，我们已经非常完美的搭建了一个实时的容器性能监控系统，能够很好的完成我们对生产上应用的监控。在本片文章中还有很多我们没有详述的，如prometheus的配置、grafana的使用、预警的设置、grafana模板的使用……大家可以自己去探索，学无止境。我们是银天下devops团队，如果你有任何疑问，可以直接联系我们！</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/09/04/容器性能监控的副本/" data-id="cj74xntlh0001a96sapwjdauv" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/09/04/容器性能监控的副本/" data-id="cj751og4t0001un6s1xhcvvue" class="article-share-link">Partager</a>
       
       
     </footer>
@@ -304,7 +293,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/09/03/hello-world/" data-id="cj74xntlc0000a96sdy0y8bpl" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/09/03/hello-world/" data-id="cj751og4p0000un6sqtfinm44" class="article-share-link">Partager</a>
       
       
     </footer>
@@ -339,12 +328,12 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
+    <h3 class="widget-title">Articles récents</h3>
     <div class="widget">
       <ul>
         
           <li>
-            <a href="/2017/09/04/容器性能监控的副本/">容器性能监控</a>
+            <a href="/2017/09/04/容器性能监控的副本/">(no title)</a>
           </li>
         
           <li>
@@ -364,7 +353,7 @@
   <div class="outer">
     <div id="footer-info" class="inner">
       &copy; 2017 John Doe<br>
-      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      Propulsé by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
 </footer>
