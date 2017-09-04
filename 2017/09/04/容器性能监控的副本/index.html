@@ -12,6 +12,9 @@
 <meta property="og:url" content="http://yoursite.com/2017/09/04/容器性能监控的副本/index.html">
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="“You can’t manage what you don’t measure” — W. Edwards Deming  近年来，以docker为首的容器技术在IT领域尤其是在云计算和微服务应用领域掀起了一股狂潮，成为当下特别流行的一种技术，它的广泛应用可能正好契合当今软件领域中的某些需求  它将应用及依赖的运行环境打包成镜像，消除了线上线下环境的差异，保证了应用环境的一致性； 作为一种轻量">
+<meta property="og:image" content="http://ovqidxh71.bkt.clouddn.com/cAdvisor_Dashboard.png">
+<meta property="og:image" content="http://ovqidxh71.bkt.clouddn.com/prometheus_dashboard.png">
+<meta property="og:image" content="http://ovqidxh71.bkt.clouddn.com/grafana_dashboard.png">
 <meta property="og:image" content="http://ovqidxh71.bkt.clouddn.com/datasource_dashboard.png">
 <meta property="og:image" content="http://ovqidxh71.bkt.clouddn.com/cadvisor.png">
 <meta property="og:image" content="http://ovqidxh71.bkt.clouddn.com/nodeexporter.png">
@@ -23,11 +26,11 @@
 <meta property="og:image" content="http://ovqidxh71.bkt.clouddn.com/First_CPU_Load.png">
 <meta property="og:image" content="http://ovqidxh71.bkt.clouddn.com/Second_CPU_Load.png">
 <meta property="og:image" content="http://ovqidxh71.bkt.clouddn.com/Last_CPU_Load.png">
-<meta property="og:updated_time" content="2017-09-04T03:15:05.000Z">
+<meta property="og:updated_time" content="2017-09-04T03:30:52.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="容器性能监控">
 <meta name="twitter:description" content="“You can’t manage what you don’t measure” — W. Edwards Deming  近年来，以docker为首的容器技术在IT领域尤其是在云计算和微服务应用领域掀起了一股狂潮，成为当下特别流行的一种技术，它的广泛应用可能正好契合当今软件领域中的某些需求  它将应用及依赖的运行环境打包成镜像，消除了线上线下环境的差异，保证了应用环境的一致性； 作为一种轻量">
-<meta name="twitter:image" content="http://ovqidxh71.bkt.clouddn.com/datasource_dashboard.png">
+<meta name="twitter:image" content="http://ovqidxh71.bkt.clouddn.com/cAdvisor_Dashboard.png">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -65,9 +68,9 @@
       </nav>
       <nav id="sub-nav">
         
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="Flux RSS"></a>
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Rechercher"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
       </nav>
       <div id="search-form-wrap">
         <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
@@ -140,19 +143,19 @@
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="attr">version:</span> <span class="string">'2'</span></div><div class="line"><span class="attr">services:</span></div><div class="line"><span class="attr">  cadvisor:</span></div><div class="line"><span class="attr">    image:</span> <span class="string">google/cadvisor</span></div><div class="line"><span class="attr">    restart:</span> <span class="string">always</span></div><div class="line"><span class="attr">    ports:</span></div><div class="line"><span class="bullet">      -</span> <span class="number">8080</span><span class="string">:8080</span></div><div class="line"><span class="attr">    volumes:</span></div><div class="line"><span class="bullet">      -</span> <span class="string">/:/rootfs:ro</span></div><div class="line"><span class="bullet">      -</span> <span class="string">/var/run:/var/run:rw</span></div><div class="line"><span class="bullet">      -</span> <span class="string">/sys:/sys:ro</span></div><div class="line"><span class="bullet">      -</span> <span class="string">/var/lib/docker/:/var/lib/docker:ro</span></div></pre></td></tr></table></figure>
 <p>通过docker命令行的方式安装</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">docker run \</div><div class="line">  --volume=/:/rootfs:ro \</div><div class="line">  --volume=/var/run:/var/run:rw \</div><div class="line">  --volume=/sys:/sys:ro \</div><div class="line">  --volume=/var/lib/docker/:/var/lib/docker:ro \</div><div class="line">  --publish=8080:8080 \</div><div class="line">  --detach=<span class="literal">true</span> \</div><div class="line">  --name=cadvisor \</div><div class="line">  --restart=always \</div><div class="line">  google/cadvisor:latest</div></pre></td></tr></table></figure>
-<p>如果你在本机上安装的你可以通过<a href="http://localhost:8080访问cadvisor网页界面，你将看到![cAdvisor_Dashboard](http://ovqidxh71.bkt.clouddn.com/cAdvisor_Dashboard.png" target="_blank" rel="external">http://localhost:8080访问cadvisor网页界面，你将看到![cAdvisor_Dashboard](http://ovqidxh71.bkt.clouddn.com/cAdvisor_Dashboard.png</a>)</p>
+<p>如果你在本机上安装的你可以通过<code>http://localhost:8080</code>访问cadvisor网页界面，你将看到<img src="http://ovqidxh71.bkt.clouddn.com/cAdvisor_Dashboard.png" alt="cAdvisor_Dashboard"></p>
 <ul>
 <li><strong><em>安装prometheus</em></strong></li>
 </ul>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="attr">version:</span> <span class="string">'2'</span></div><div class="line"><span class="attr">services:</span></div><div class="line"><span class="attr">  prometheus:</span></div><div class="line"><span class="attr">    image:</span> <span class="string">prom/prometheus</span></div><div class="line"><span class="attr">    ports:</span></div><div class="line"><span class="bullet">      -</span> <span class="number">9090</span><span class="string">:9090</span></div><div class="line"><span class="attr">    volumes:</span></div><div class="line"><span class="bullet">      -</span> <span class="string">/etc/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml</span></div></pre></td></tr></table></figure>
 <p>prometheus.yml这个文件可以先配置成简单的监控prometheus自己，并把它放在/etc/prometheus/prometheus.yml这个路径。</p>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="attr">global:</span></div><div class="line"><span class="attr">  scrape_interval:</span>     <span class="number">15</span><span class="string">s</span> </div><div class="line"><span class="attr">  evaluation_interval:</span> <span class="number">15</span><span class="string">s</span> </div><div class="line"><span class="attr">  external_labels:</span></div><div class="line"><span class="attr">      monitor:</span> <span class="string">'codelab-monitor'</span></div><div class="line"><span class="attr">scrape_configs:</span></div><div class="line"><span class="attr">  - job_name:</span> <span class="string">'prometheus'</span></div><div class="line"><span class="attr">    static_configs:</span></div><div class="line"><span class="attr">      - targets:</span> <span class="string">['localhost:9090']</span></div></pre></td></tr></table></figure>
-<p>如果是在本机安装的你可以通过<a href="http://localhost:9090访问prometheus界面，你可以看到![prometheus_dashboard](http://ovqidxh71.bkt.clouddn.com/prometheus_dashboard.png" target="_blank" rel="external">http://localhost:9090访问prometheus界面，你可以看到![prometheus_dashboard](http://ovqidxh71.bkt.clouddn.com/prometheus_dashboard.png</a>)<br>你可以点击菜单栏中的Status下拉菜单中的Target标签看到监控的任务</p>
+<p>如果是在本机安装的你可以通过<code>http://localhost:9090</code>访问prometheus界面，你可以看到<img src="http://ovqidxh71.bkt.clouddn.com/prometheus_dashboard.png" alt="prometheus_dashboard"><br>你可以点击菜单栏中的Status下拉菜单中的Target标签看到监控的任务</p>
 <ul>
 <li><strong><em>安装grafana</em></strong></li>
 </ul>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="attr">version:</span> <span class="string">'2'</span></div><div class="line"><span class="attr">services:</span></div><div class="line"><span class="attr">  grafana:</span></div><div class="line"><span class="attr">    image:</span> <span class="string">grafana/grafana</span></div><div class="line"><span class="attr">    container_name:</span> <span class="string">grafana</span></div><div class="line"><span class="attr">    ports:</span></div><div class="line"><span class="bullet">     -</span> <span class="string">"3000:3000"</span></div></pre></td></tr></table></figure>
-<p>你可以通过<a href="http://localhost:3000访问grafana界面![grafana_dashboard](http://ovqidxh71.bkt.clouddn.com/grafana_dashboard.png)，输入默认用户名：admin密码：admin，可以进入管理界面" target="_blank" rel="external">http://localhost:3000访问grafana界面![grafana_dashboard](http://ovqidxh71.bkt.clouddn.com/grafana_dashboard.png)，输入默认用户名：admin密码：admin，可以进入管理界面</a></p>
+<p>你可以通过<code>http://localhost:3000</code>访问grafana界面<img src="http://ovqidxh71.bkt.clouddn.com/grafana_dashboard.png" alt="grafana_dashboard">，输入默认用户名：admin密码：admin，可以进入管理界面</p>
 <ul>
 <li><strong><em>安装node_exporter</em></strong></li>
 </ul>
@@ -271,7 +274,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/09/04/容器性能监控的副本/" data-id="cj75lo9d90001yw6scet8w2lw" class="article-share-link">Partager</a>
+      <a data-url="http://yoursite.com/2017/09/04/容器性能监控的副本/" data-id="cj75lzvx80000zv6s5jqf7u0u" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/container-monitor/">container,monitor</a></li></ul>
@@ -284,7 +287,7 @@
   
   
     <a href="/2017/09/03/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Ancien</strong>
+      <strong class="article-nav-caption">Older</strong>
       <div class="article-nav-title">Hello World</div>
     </a>
   
@@ -302,7 +305,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Mot-clés</h3>
+    <h3 class="widget-title">Tags</h3>
     <div class="widget">
       <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/container-monitor/">container,monitor</a></li></ul>
     </div>
@@ -312,7 +315,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Nuage de mot-clés</h3>
+    <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
       <a href="/tags/container-monitor/" style="font-size: 10px;">container,monitor</a>
     </div>
@@ -331,7 +334,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Articles récents</h3>
+    <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
         
@@ -356,7 +359,7 @@
   <div class="outer">
     <div id="footer-info" class="inner">
       &copy; 2017 John Doe<br>
-      Propulsé by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
 </footer>
