@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>监控系统的搭建和使用 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="监控组件一般性能监控系统会包含5大组件：  探针：安装在应用中收集应用性能的包 收集器：收集探针发送过来的数据或者主动拉取应用性能数据的工具 存储介质：存储收集到的应用性能数据的介质 展示器：将应用性能数据按照使用者的要求展示的工具 预警器：当某一监测值超过预定阈值向devops成员发出预警  监控组件简要介绍prometheusprometheus是一个开源的时序数据收集和处理的服务软件，它其实">
+<meta name="keywords" content="container,prometheus,monitor">
+<meta property="og:type" content="article">
+<meta property="og:title" content="监控系统的搭建和使用">
+<meta property="og:url" content="http://yoursite.com/2017/09/04/Building-and-Using-Monitor-System/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="监控组件一般性能监控系统会包含5大组件：  探针：安装在应用中收集应用性能的包 收集器：收集探针发送过来的数据或者主动拉取应用性能数据的工具 存储介质：存储收集到的应用性能数据的介质 展示器：将应用性能数据按照使用者的要求展示的工具 预警器：当某一监测值超过预定阈值向devops成员发出预警  监控组件简要介绍prometheusprometheus是一个开源的时序数据收集和处理的服务软件，它其实">
+<meta property="og:image" content="http://ovqidxh71.bkt.clouddn.com/cAdvisor_Dashboard.png">
+<meta property="og:image" content="http://ovqidxh71.bkt.clouddn.com/prometheus_dashboard.png">
+<meta property="og:image" content="http://ovqidxh71.bkt.clouddn.com/grafana_dashboard.png">
+<meta property="og:image" content="http://ovqidxh71.bkt.clouddn.com/datasource_dashboard.png">
+<meta property="og:image" content="http://ovqidxh71.bkt.clouddn.com/cadvisor.png">
+<meta property="og:image" content="http://ovqidxh71.bkt.clouddn.com/nodeexporter.png">
+<meta property="og:image" content="http://ovqidxh71.bkt.clouddn.com/dashboard.png">
+<meta property="og:image" content="http://ovqidxh71.bkt.clouddn.com/nodeExpoerter.png">
+<meta property="og:image" content="http://ovqidxh71.bkt.clouddn.com/cadvisor_dash.png">
+<meta property="og:updated_time" content="2017-09-05T07:48:05.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="监控系统的搭建和使用">
+<meta name="twitter:description" content="监控组件一般性能监控系统会包含5大组件：  探针：安装在应用中收集应用性能的包 收集器：收集探针发送过来的数据或者主动拉取应用性能数据的工具 存储介质：存储收集到的应用性能数据的介质 展示器：将应用性能数据按照使用者的要求展示的工具 预警器：当某一监测值超过预定阈值向devops成员发出预警  监控组件简要介绍prometheusprometheus是一个开源的时序数据收集和处理的服务软件，它其实">
+<meta name="twitter:image" content="http://ovqidxh71.bkt.clouddn.com/cAdvisor_Dashboard.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Building-and-Using-Monitor-System" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/09/04/Building-and-Using-Monitor-System/" class="article-date">
+  <time datetime="2017-09-04T06:51:02.000Z" itemprop="datePublished">2017-09-04</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/容器性能监控/">容器性能监控</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      监控系统的搭建和使用
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="监控组件"><a href="#监控组件" class="headerlink" title="监控组件"></a>监控组件</h2><p>一般性能监控系统会包含5大组件：</p>
+<ul>
+<li><strong>探针</strong>：安装在应用中收集应用性能的包</li>
+<li><strong>收集器</strong>：收集探针发送过来的数据或者主动拉取应用性能数据的工具</li>
+<li><strong>存储介质</strong>：存储收集到的应用性能数据的介质</li>
+<li><strong>展示器</strong>：将应用性能数据按照使用者的要求展示的工具</li>
+<li><strong>预警器</strong>：当某一监测值超过预定阈值向devops成员发出预警</li>
+</ul>
+<h2 id="监控组件简要介绍"><a href="#监控组件简要介绍" class="headerlink" title="监控组件简要介绍"></a>监控组件简要介绍</h2><h3 id="prometheus"><a href="#prometheus" class="headerlink" title="prometheus"></a>prometheus</h3><p>prometheus是一个开源的时序数据收集和处理的服务软件，它其实包含监控组件中的：收集器，存储和展示器，它所需的探针有相应的exporter和client library exporter组件提供，预警器可以由配套的alertmanager软件提供，它既可以监控各个主机的CPU、内存、文件等资源的使用情况，也可以监控服务的健康状况、网络流量，它既可以监控mysql、redis的使用状况，也可以定制监控信息，它是一个整体化解决方案的监控软件。</p>
+<h3 id="cAdvisor"><a href="#cAdvisor" class="headerlink" title="cAdvisor"></a>cAdvisor</h3><p>cAdvisor会收集、聚集、处理并导出运行中容器的信息,它可以为容器用户提供了了解运行时容器资源使用和性能特征的方法，安装后你可以通过web界面直接看到相应机器上容器中应用的资源使用和性能特征。它包含了监控组件中的前4大组件，但是它只能监控容器资源的使用和性能，因为它叫container advisor。</p>
+<h3 id="grafana"><a href="#grafana" class="headerlink" title="grafana"></a>grafana</h3><p>grafana是一个开源的领先的能非常漂亮的展示时序数据分析结果的软件。它是使用js所写的一个软件，支持多种数据源，支持多种图形面板展示，它也提供了预警功能，是一个非常棒的图形展示组件。</p>
+<h3 id="exporter"><a href="#exporter" class="headerlink" title="exporter"></a>exporter</h3><p>下面介绍的是各种度量数据的导出器</p>
+<ul>
+<li><strong>node_exporter</strong>: 监控一个主机的CPU、内存等资源的使用状况</li>
+<li><strong>blackbox_exporter</strong>：监控各个服务的健康状况</li>
+<li><strong>mysqld_exporter</strong>: 监控mysql的使用状况</li>
+<li><strong>redis_exporter</strong>: 监控redis的使用状况</li>
+<li><strong>SNMP_exporter</strong>: 监控网络流量</li>
+</ul>
+<h2 id="监控系统的搭建"><a href="#监控系统的搭建" class="headerlink" title="监控系统的搭建"></a>监控系统的搭建</h2><p>我们需要建立一个全面的容器性能监控系统，所以我们选择的方案是『cAdvisor + Prometheus + Grafana』，下面我们将讲解整个监控系统的搭建。</p>
+<ul>
+<li><strong><em>安装cAdvisor container</em></strong></li>
+</ul>
+<p>通过docker-compose.yml的方式安装</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="attr">version:</span> <span class="string">'2'</span></div><div class="line"><span class="attr">services:</span></div><div class="line"><span class="attr">  cadvisor:</span></div><div class="line"><span class="attr">    image:</span> <span class="string">google/cadvisor</span></div><div class="line"><span class="attr">    restart:</span> <span class="string">always</span></div><div class="line"><span class="attr">    ports:</span></div><div class="line"><span class="bullet">      -</span> <span class="number">8080</span><span class="string">:8080</span></div><div class="line"><span class="attr">    volumes:</span></div><div class="line"><span class="bullet">      -</span> <span class="string">/:/rootfs:ro</span></div><div class="line"><span class="bullet">      -</span> <span class="string">/var/run:/var/run:rw</span></div><div class="line"><span class="bullet">      -</span> <span class="string">/sys:/sys:ro</span></div><div class="line"><span class="bullet">      -</span> <span class="string">/var/lib/docker/:/var/lib/docker:ro</span></div></pre></td></tr></table></figure>
+<p>通过docker命令行的方式安装</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">docker run \</div><div class="line">  --volume=/:/rootfs:ro \</div><div class="line">  --volume=/var/run:/var/run:rw \</div><div class="line">  --volume=/sys:/sys:ro \</div><div class="line">  --volume=/var/lib/docker/:/var/lib/docker:ro \</div><div class="line">  --publish=8080:8080 \</div><div class="line">  --detach=<span class="literal">true</span> \</div><div class="line">  --name=cadvisor \</div><div class="line">  --restart=always \</div><div class="line">  google/cadvisor:latest</div></pre></td></tr></table></figure>
+<p>如果你在本机上安装的你可以通过<code>http://localhost:8080</code>访问cadvisor网页界面，你将看到<img src="http://ovqidxh71.bkt.clouddn.com/cAdvisor_Dashboard.png" alt="cAdvisor_Dashboard"></p>
+<ul>
+<li><strong><em>安装prometheus</em></strong></li>
+</ul>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="attr">version:</span> <span class="string">'2'</span></div><div class="line"><span class="attr">services:</span></div><div class="line"><span class="attr">  prometheus:</span></div><div class="line"><span class="attr">    image:</span> <span class="string">prom/prometheus</span></div><div class="line"><span class="attr">    ports:</span></div><div class="line"><span class="bullet">      -</span> <span class="number">9090</span><span class="string">:9090</span></div><div class="line"><span class="attr">    volumes:</span></div><div class="line"><span class="bullet">      -</span> <span class="string">/etc/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml</span></div></pre></td></tr></table></figure>
+<p>prometheus.yml这个文件可以先配置成简单的监控prometheus自己，并把它放在/etc/prometheus/prometheus.yml这个路径。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="attr">global:</span></div><div class="line"><span class="attr">  scrape_interval:</span>     <span class="number">15</span><span class="string">s</span> </div><div class="line"><span class="attr">  evaluation_interval:</span> <span class="number">15</span><span class="string">s</span> </div><div class="line"><span class="attr">  external_labels:</span></div><div class="line"><span class="attr">      monitor:</span> <span class="string">'codelab-monitor'</span></div><div class="line"><span class="attr">scrape_configs:</span></div><div class="line"><span class="attr">  - job_name:</span> <span class="string">'prometheus'</span></div><div class="line"><span class="attr">    static_configs:</span></div><div class="line"><span class="attr">      - targets:</span> <span class="string">['localhost:9090']</span></div></pre></td></tr></table></figure>
+<p>如果是在本机安装的你可以通过<code>http://localhost:9090</code>访问prometheus界面，你可以看到<img src="http://ovqidxh71.bkt.clouddn.com/prometheus_dashboard.png" alt="prometheus_dashboard"><br>你可以点击菜单栏中的Status下拉菜单中的Target标签看到监控的任务</p>
+<ul>
+<li><strong><em>安装grafana</em></strong></li>
+</ul>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="attr">version:</span> <span class="string">'2'</span></div><div class="line"><span class="attr">services:</span></div><div class="line"><span class="attr">  grafana:</span></div><div class="line"><span class="attr">    image:</span> <span class="string">grafana/grafana</span></div><div class="line"><span class="attr">    container_name:</span> <span class="string">grafana</span></div><div class="line"><span class="attr">    ports:</span></div><div class="line"><span class="bullet">     -</span> <span class="string">"3000:3000"</span></div></pre></td></tr></table></figure>
+<p>你可以通过<code>http://localhost:3000</code>访问grafana界面<img src="http://ovqidxh71.bkt.clouddn.com/grafana_dashboard.png" alt="grafana_dashboard">，输入默认用户名：admin密码：admin，可以进入管理界面</p>
+<ul>
+<li><strong><em>安装node_exporter</em></strong></li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">docker run -d -p 9100:9100 \</div><div class="line">  -v <span class="string">"/proc:/host/proc:ro"</span> \</div><div class="line">  -v <span class="string">"/sys:/host/sys:ro"</span> \</div><div class="line">  -v <span class="string">"/:/rootfs:ro"</span> \</div><div class="line">  --net=<span class="string">"host"</span> \</div><div class="line">  quay.io/prometheus/node-exporter \</div><div class="line">    --collector.procfs /host/proc \</div><div class="line">    --collector.sysfs /host/sys \</div><div class="line">    --collector.filesystem.ignored-mount-points <span class="string">"^/(sys|proc|dev|host|etc)($|/)"</span></div></pre></td></tr></table></figure>
+<ul>
+<li><strong><em>安装blackbox-exporter</em></strong></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">docker run -d \</div><div class="line">	 --restart=always \</div><div class="line">	 -p 9115:9115 \</div><div class="line">	 --name blackbox_exporter </div><div class="line">	 prom/blackbox-exporter:latest</div></pre></td></tr></table></figure>
+<p>其他的exporter可以根据自己的需求进行安装，其中cAdvisor和node-exporter需要在你需要监控的每个机器上安装，prometheus、blackbox-exporter、grafana部署一份就可以了。经过以上的安装部署，我们已经把容器性能监控的轮廓搭建好了，但是我们还没有将它们连接起来，下面我们将讲解它们的连接和使用</p>
+<h2 id="监控系统的连接和使用"><a href="#监控系统的连接和使用" class="headerlink" title="监控系统的连接和使用"></a>监控系统的连接和使用</h2><p>我们首先需要将各种数据导出器、cAdvisor中的数据导入prometheus，因为prometheus采用的是主动拉取目标主机的监控数据，所以只需要让prometheus知道被监控的目标主机在哪就行，我们只需将Prometheus的配置文件改成下面这样：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="attr">global:</span></div><div class="line"><span class="attr">  scrape_interval:</span>     <span class="number">15</span><span class="string">s</span> </div><div class="line"><span class="attr">  evaluation_interval:</span> <span class="number">15</span><span class="string">s</span> </div><div class="line"><span class="attr">  external_labels:</span></div><div class="line"><span class="attr">      monitor:</span> <span class="string">'codelab-monitor'</span></div><div class="line"><span class="attr">scrape_configs:</span></div><div class="line"><span class="attr">  - job_name:</span> <span class="string">'prometheus'</span></div><div class="line"><span class="attr">    static_configs:</span></div><div class="line"><span class="attr">      - targets:</span> <span class="string">['localhost:9090']</span></div><div class="line"><span class="attr">  - job_name:</span> <span class="string">'node_exporter'</span></div><div class="line"><span class="attr">    static_configs:</span></div><div class="line"><span class="attr">      - targets:</span> <span class="string">['192.168.77.153:9100']</span></div><div class="line"><span class="attr">  - job_name:</span> <span class="string">'cadvisor'</span></div><div class="line"><span class="attr">    static_configs:</span></div><div class="line"><span class="attr">      - targets:</span> <span class="string">['192.168.77.153:8080']</span></div><div class="line"><span class="attr">  - job_name:</span> <span class="string">'blackbox'</span></div><div class="line"><span class="attr">    metrics_path:</span> <span class="string">/probe</span></div><div class="line"><span class="attr">    params:</span></div><div class="line"><span class="attr">      module:</span> <span class="string">[http_2xx]</span>  <span class="comment"># Look for a HTTP 200 response.</span></div><div class="line"><span class="attr">    static_configs:</span></div><div class="line"><span class="attr">      - targets:</span></div><div class="line"><span class="attr">        - https:</span><span class="string">//www.baidu.com</span></div><div class="line"><span class="attr">    relabel_configs:</span></div><div class="line"><span class="attr">      - source_labels:</span> <span class="string">[__address__]</span></div><div class="line"><span class="attr">        target_label:</span> <span class="string">__param_target</span></div><div class="line"><span class="attr">      - source_labels:</span> <span class="string">[__param_target]</span></div><div class="line"><span class="attr">        target_label:</span> <span class="string">instance</span></div><div class="line"><span class="attr">      - target_label:</span> <span class="string">__address__</span></div><div class="line"><span class="attr">        replacement:</span> <span class="number">192.168</span><span class="number">.77</span><span class="number">.153</span><span class="string">:9115</span>  <span class="comment"># Blackbox exporter</span></div></pre></td></tr></table></figure>
+<p><strong><em>注意</em></strong>：192.168.77.153 是本机的局域网地址，因为我们都是通过容器启动，所以不要使用localhost。</p>
+<p>重启后，你可以点击菜单栏中的Status下拉菜单中的Target标签看到监控的任务，确认是否启动成功。接下来我们需要将prometheus里面的数据导入grafana，grafana可以作为一个所有数据集中展示的地方，因为很可能未来我们的数据来源不一定来自一个prometheus甚至可能是其他的存储库</p>
+<p>我们先登录到grafana管理界面，创建第一个数据源，<img src="http://ovqidxh71.bkt.clouddn.com/datasource_dashboard.png" alt="datasource_dashboard">数据源创建好了以后我们需要创建dashboard面板，我们直接去<a href="https://grafana.com/dashboards?search=cAdvisor" target="_blank" rel="external">grafana</a>官网搜索cAdvisor的dashboard和node exporter的dashboard。<img src="http://ovqidxh71.bkt.clouddn.com/cadvisor.png" alt="cadvisor"><br> <img src="http://ovqidxh71.bkt.clouddn.com/nodeexporter.png" alt="nodeexporter"><br>并将它们分别导入grafana。<img src="http://ovqidxh71.bkt.clouddn.com/dashboard.png" alt="dashboard"></p>
+<p>导入成功后我们将会看到监控的数据<img src="http://ovqidxh71.bkt.clouddn.com/nodeExpoerter.png" alt="nodeExpoerter"><img src="http://ovqidxh71.bkt.clouddn.com/cadvisor_dash.png" alt="cadvisor_dash"></p>
+<p>在garafana的官网面板中我们没有找到black-exporter相关的面板，所以我们需要书写一些查询语句将我们监控www.baidu.com这个网址的健康状况的信息反映出来，我们可能会为官网贡献一套black-exporter模板。</p>
+<p>到现在为止我们已经将整个容器监控系统搭建起来，我们的监控系统具有监控各个服务器CPU、内存、文件等资源使用状况，服务器中每个容器的CPU、内存、文件等资源使用状况以及对我们开发的应用进行健康检查的能力。我们做的非常的完美，是的，我们开发的应用终于可以上线了。这一切看似完美的背后仍然存在一点小小的缺憾，比如我想知道各个微服务的被调用情况，每次请求的延迟，每次请求正确与否，一段时间内的请求量……；仔细观察，我们还会发现一个问题，就是在prometheus的配置文件中我们监控的地址都是固定的，我们知道在docker容器集群中，这些地址是随时变动的，还有我们增加一个服务就需要去更改prometheus的配置文件，that is too bad！我需要prometheus可以动态更改监控的地址，动态增加监控的服务，I need more！</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/09/04/Building-and-Using-Monitor-System/" data-id="cj77b07nj0000n06suc1t0t3r" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/monitor/">monitor</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/09/04/the-Foundation-of-Prometheus/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Prometheus基础
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/09/04/Monitoring-Performance-of-Container/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">容器性能监控</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/容器性能监控/">容器性能监控</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/monitor/">monitor</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/monitor/" style="font-size: 10px;">monitor</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/09/04/Custom-the-Monitor-data/">自定义监控数据</a>
+          </li>
+        
+          <li>
+            <a href="/2017/09/04/the-Foundation-of-Prometheus/">Prometheus基础</a>
+          </li>
+        
+          <li>
+            <a href="/2017/09/04/Building-and-Using-Monitor-System/">监控系统的搭建和使用</a>
+          </li>
+        
+          <li>
+            <a href="/2017/09/04/Monitoring-Performance-of-Container/">容器性能监控</a>
+          </li>
+        
+          <li>
+            <a href="/2017/09/03/hello-world/">Hello World</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 VelementsMount<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
