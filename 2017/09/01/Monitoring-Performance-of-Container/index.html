@@ -12,7 +12,7 @@
 <meta property="og:url" content="http://yoursite.com/2017/09/01/Monitoring-Performance-of-Container/index.html">
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="作者：刘志林 萧超杰 朱枫翔   “You can’t manage what you don’t measure” — W. Edwards Deming  近年来，以docker为首的容器技术在IT领域尤其是在云计算和微服务应用领域掀起了一股狂潮，成为当下特别流行的一种技术，说明容器技术正好满足了当今软件领域中的一些迫切需求，它主要解决了下面的一些问题  它将应用及依赖的运行环境打包成镜像，消">
-<meta property="og:updated_time" content="2017-09-06T06:05:02.000Z">
+<meta property="og:updated_time" content="2017-09-06T06:16:00.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="容器监控(一)">
 <meta name="twitter:description" content="作者：刘志林 萧超杰 朱枫翔   “You can’t manage what you don’t measure” — W. Edwards Deming  近年来，以docker为首的容器技术在IT领域尤其是在云计算和微服务应用领域掀起了一股狂潮，成为当下特别流行的一种技术，说明容器技术正好满足了当今软件领域中的一些迫切需求，它主要解决了下面的一些问题  它将应用及依赖的运行环境打包成镜像，消">
@@ -55,7 +55,7 @@
         
           <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Zoeken"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
       </nav>
       <div id="search-form-wrap">
         <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
@@ -90,7 +90,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p align="center">作者：刘志林 萧超杰 朱枫翔</p>
+        <h4 align="center">作者：刘志林 萧超杰 朱枫翔</h4>
 
 <blockquote>
 <p><strong>“You can’t manage what you don’t measure”</strong></p>
@@ -112,7 +112,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/09/01/Monitoring-Performance-of-Container/" data-id="cj78mky350001vs6sq4o04jfb" class="article-share-link">Delen</a>
+      <a data-url="http://yoursite.com/2017/09/01/Monitoring-Performance-of-Container/" data-id="cj78msz5x00040h6sp9zx1ou0" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/monitor/">monitor</a></li></ul>
@@ -123,19 +123,19 @@
     
 <nav id="article-nav">
   
-    <a href="/2017/09/03/hello-world/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Nieuwer</strong>
+    <a href="/2017/09/01/Custom-the-Monitor-data/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          Hello World
+          自定义监控数据（四）
         
       </div>
     </a>
   
   
-    <a href="/2017/09/01/Custom-the-Monitor-data/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Ouder</strong>
-      <div class="article-nav-title">自定义监控数据（四）</div>
+    <a href="/2017/09/01/the-Foundation-of-Prometheus/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Prometheus基础（三）</div>
     </a>
   
 </nav>
@@ -149,9 +149,9 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Categorieën</h3>
+    <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Monitoring-Performance-of-Container/">Monitoring-Performance-of-Container</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/容器监控/">容器监控</a></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/容器监控/">容器监控</a></li></ul>
     </div>
   </div>
 
@@ -159,7 +159,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Labels</h3>
+    <h3 class="widget-title">Tags</h3>
     <div class="widget">
       <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/monitor/">monitor</a></li></ul>
     </div>
@@ -178,7 +178,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Archieven</h3>
+    <h3 class="widget-title">Archives</h3>
     <div class="widget">
       <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li></ul>
     </div>
@@ -188,24 +188,24 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Recente berichten</h3>
+    <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
-        
-          <li>
-            <a href="/2017/09/04/Building-and-Using-Monitor-System/">监控系统的搭建和使用（二）</a>
-          </li>
         
           <li>
             <a href="/2017/09/03/hello-world/">Hello World</a>
           </li>
         
           <li>
-            <a href="/2017/09/01/Monitoring-Performance-of-Container/">容器监控(一)</a>
+            <a href="/2017/09/01/Building-and-Using-Monitor-System/">监控系统的搭建和使用（二）</a>
           </li>
         
           <li>
             <a href="/2017/09/01/Custom-the-Monitor-data/">自定义监控数据（四）</a>
+          </li>
+        
+          <li>
+            <a href="/2017/09/01/Monitoring-Performance-of-Container/">容器监控(一)</a>
           </li>
         
           <li>
