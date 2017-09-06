@@ -3,15 +3,15 @@
 <head>
   <meta charset="utf-8">
   
-  <title>自定义监控数据 | Hexo</title>
+  <title>自定义监控数据（四） | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="自定义监控数据需求是永无止境的，我们一定要在正确的时间做正确的事情。prometheus作为容器监控系统，它的功能是强大的，我们可以通过它提供的客户端开发包，自定义我们需要监控的性能数据；我们也可以通过它提供的file_sd_configs动态配置监控的地址，动态增加监控的服务，这正好解决了前面章节我们提出的2个明确的需求。下面就让我们开启这一场神奇的解决问题和coding之旅吧。 prometh">
+  <meta name="description" content="作者：萧超杰 刘志林 朱枫翔  自定义监控数据需求是永无止境的，我们一定要在正确的时间做正确的事情。prometheus作为容器监控系统，它的功能是强大的，我们可以通过它提供的客户端开发包，自定义我们需要监控的性能数据；我们也可以通过它提供的file_sd_configs动态配置监控的地址，动态增加监控的服务，这正好解决了前面章节我们提出的2个明确的需求。下面就让我们开启这一场神奇的解决问题和co">
 <meta name="keywords" content="container,prometheus,monitor">
 <meta property="og:type" content="article">
-<meta property="og:title" content="自定义监控数据">
-<meta property="og:url" content="http://yoursite.com/2017/09/04/Custom-the-Monitor-data/index.html">
+<meta property="og:title" content="自定义监控数据（四）">
+<meta property="og:url" content="http://yoursite.com/2017/09/01/Custom-the-Monitor-data/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="自定义监控数据需求是永无止境的，我们一定要在正确的时间做正确的事情。prometheus作为容器监控系统，它的功能是强大的，我们可以通过它提供的客户端开发包，自定义我们需要监控的性能数据；我们也可以通过它提供的file_sd_configs动态配置监控的地址，动态增加监控的服务，这正好解决了前面章节我们提出的2个明确的需求。下面就让我们开启这一场神奇的解决问题和coding之旅吧。 prometh">
+<meta property="og:description" content="作者：萧超杰 刘志林 朱枫翔  自定义监控数据需求是永无止境的，我们一定要在正确的时间做正确的事情。prometheus作为容器监控系统，它的功能是强大的，我们可以通过它提供的客户端开发包，自定义我们需要监控的性能数据；我们也可以通过它提供的file_sd_configs动态配置监控的地址，动态增加监控的服务，这正好解决了前面章节我们提出的2个明确的需求。下面就让我们开启这一场神奇的解决问题和co">
 <meta property="og:image" content="http://ovqidxh71.bkt.clouddn.com/Prometheus-Grafana.png">
 <meta property="og:image" content="http://ovqidxh71.bkt.clouddn.com/Metrics-Json.png">
 <meta property="og:image" content="http://ovqidxh71.bkt.clouddn.com/Prometheus-metrics.png">
@@ -22,10 +22,10 @@
 <meta property="og:image" content="http://ovqidxh71.bkt.clouddn.com/First_CPU_Load.png">
 <meta property="og:image" content="http://ovqidxh71.bkt.clouddn.com/Second_CPU_Load.png">
 <meta property="og:image" content="http://ovqidxh71.bkt.clouddn.com/Last_CPU_Load.png">
-<meta property="og:updated_time" content="2017-09-05T07:48:11.000Z">
+<meta property="og:updated_time" content="2017-09-06T06:06:27.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="自定义监控数据">
-<meta name="twitter:description" content="自定义监控数据需求是永无止境的，我们一定要在正确的时间做正确的事情。prometheus作为容器监控系统，它的功能是强大的，我们可以通过它提供的客户端开发包，自定义我们需要监控的性能数据；我们也可以通过它提供的file_sd_configs动态配置监控的地址，动态增加监控的服务，这正好解决了前面章节我们提出的2个明确的需求。下面就让我们开启这一场神奇的解决问题和coding之旅吧。 prometh">
+<meta name="twitter:title" content="自定义监控数据（四）">
+<meta name="twitter:description" content="作者：萧超杰 刘志林 朱枫翔  自定义监控数据需求是永无止境的，我们一定要在正确的时间做正确的事情。prometheus作为容器监控系统，它的功能是强大的，我们可以通过它提供的客户端开发包，自定义我们需要监控的性能数据；我们也可以通过它提供的file_sd_configs动态配置监控的地址，动态增加监控的服务，这正好解决了前面章节我们提出的2个明确的需求。下面就让我们开启这一场神奇的解决问题和co">
 <meta name="twitter:image" content="http://ovqidxh71.bkt.clouddn.com/Prometheus-Grafana.png">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
@@ -66,7 +66,7 @@
         
           <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Zoeken"></a>
       </nav>
       <div id="search-form-wrap">
         <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
@@ -77,12 +77,12 @@
       <div class="outer">
         <section id="main"><article id="post-Custom-the-Monitor-data" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2017/09/04/Custom-the-Monitor-data/" class="article-date">
-  <time datetime="2017-09-04T08:42:25.000Z" itemprop="datePublished">2017-09-04</time>
+    <a href="/2017/09/01/Custom-the-Monitor-data/" class="article-date">
+  <time datetime="2017-09-01T00:00:00.000Z" itemprop="datePublished">2017-09-01</time>
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/容器性能监控/">容器性能监控</a>
+    <a class="article-category-link" href="/categories/容器监控/">容器监控</a>
   </div>
 
   </div>
@@ -93,7 +93,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      自定义监控数据
+      自定义监控数据（四）
     </h1>
   
 
@@ -101,7 +101,9 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="自定义监控数据"><a href="#自定义监控数据" class="headerlink" title="自定义监控数据"></a>自定义监控数据</h2><p>需求是永无止境的，我们一定要在正确的时间做正确的事情。prometheus作为容器监控系统，它的功能是强大的，我们可以通过它提供的客户端开发包，自定义我们需要监控的性能数据；我们也可以通过它提供的file_sd_configs动态配置监控的地址，动态增加监控的服务，这正好解决了前面章节我们提出的2个明确的需求。下面就让我们开启这一场神奇的解决问题和coding之旅吧。</p>
+        <p align="center">作者：萧超杰 刘志林 朱枫翔</p>
+
+<h2 id="自定义监控数据"><a href="#自定义监控数据" class="headerlink" title="自定义监控数据"></a>自定义监控数据</h2><p>需求是永无止境的，我们一定要在正确的时间做正确的事情。prometheus作为容器监控系统，它的功能是强大的，我们可以通过它提供的客户端开发包，自定义我们需要监控的性能数据；我们也可以通过它提供的<a href="https://prometheus.io/docs/operating/configuration/#%3Cfile_sd_config%3E" target="_blank" rel="external">file_sd_configs</a>动态配置监控的地址，动态增加监控的服务，这正好解决了前面章节我们提出的2个明确的需求。下面就让我们开启这一场神奇的解决问题和coding之旅吧。</p>
 <h3 id="prometheus-grafana-zuul的监控"><a href="#prometheus-grafana-zuul的监控" class="headerlink" title="prometheus+grafana+zuul的监控"></a>prometheus+grafana+zuul的监控</h3><p>我们后端的微服务采用的是springcloud支撑的微服务架构，我们的网关为zuul，所以任何请求都会经过zuul来做转发，我们监控的思路是，在zuul网关层增加一个过滤器，记录每个请求的模块，每个请求的路径，每个请求的方法，每个请求的响应时间，每个请求的次数。然后将这些数据导入到prometheus，grafana再将prometheus中的数据以图表的形式展示出来，如下图<img src="http://ovqidxh71.bkt.clouddn.com/Prometheus-Grafana.png" alt="Prometheus-Grafana.png">。这个问题的难点在于怎样将zuul中的度量数据导出和怎样在grafana中以合适的方式展现。下面我们就来探讨这2个问题的解决方法。</p>
 <h4 id="导出zuul中的度量数据"><a href="#导出zuul中的度量数据" class="headerlink" title="导出zuul中的度量数据"></a>导出zuul中的度量数据</h4><p>我们使用的是spring框架，spring框架中已经有了一个spring-acurator模块，引入这个模块，我们就可以在/metrics的路径下得到json格式的度量数据<img src="http://ovqidxh71.bkt.clouddn.com/Metrics-Json.png" alt="Metrics-Json.png">，我们可以使用spring-acurator自带的CounterService和GuageService将我们需要记录的数据记录到/metrics<br>路径下。但是我们知道prometheus不接受json格式的数据，它接受的是纯文本格式的数据,例如<img src="http://ovqidxh71.bkt.clouddn.com/Prometheus-metrics.png" alt="Prometheus-metrics.png">，如何将json格式的数据转换为prometheus接受的纯文本格式我们可以参考Johan Zietsman写的<a href="http://blog.monkey.codes/actuator-and-prometheus/" target="_blank" rel="external">Actuator and Prometheus</a>,我们自定义了spring-acurator一个新的endpoint：/prometheus,在这个页面我们导出了prometheus可以接受的度量数据，似乎一切都很美好，但是我们深入的应用之后发现，spring-acurator提供的CounterService和GuageService实在是太简陋了，它完全无法和prometheus提供的客户端的包相比</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">compile(&apos;io.prometheus:simpleclient:0.0.26&apos;)</div><div class="line">compile(&apos;io.prometheus:simpleclient_common:0.0.26&apos;)</div></pre></td></tr></table></figure>
@@ -132,12 +134,12 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sum(http_total_request_size&#123;status=~&quot;200|500&quot;&#125;)by (module)</div></pre></td></tr></table></figure>
 <p><strong>优化前</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sum(http_response_time_milliseconds_count&#123;status=&quot;200|500&quot;&#125;) by (module)</div></pre></td></tr></table></figure></p>
 <p>结果<img src="http://ovqidxh71.bkt.clouddn.com/Last_CPU_Load.png" alt="Last_CPU_Load"><br>真的非常完美。</p>
-<h2 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h2><p>经过以上的搭建过程和开发过程，我们已经非常完美的搭建了一个实时的容器性能监控系统，能够很好的完成我们对生产上应用的监控。在本篇文章中还有很多方面没有详述，如prometheus的配置、grafana的使用、预警的设置、grafana变量模板的使用……,还有prometheus的优缺点，prometheus做实时监控很好，但是对数据的永久存储就不太合适，influxDB更好……，大家可以自己去研究探索。我们是银天下devops团队，如果你有任何疑问和技术问题，欢迎与我们联系！</p>
+<h2 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h2><p>经过以上的搭建过程和开发过程，我们已经非常完美的搭建了一个实时的容器性能监控系统，能够很好的完成我们对生产上应用的监控。在本篇文章中还有很多方面没有详述，如prometheus的配置、grafana的使用、预警的设置、grafana变量模板的使用……，大家可以自己去研究探索。我们是银天下devops团队，如果你有任何疑问和技术问题，欢迎与我们联系！</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/09/04/Custom-the-Monitor-data/" data-id="cj77b07no0001n06sga2d2qec" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/09/01/Custom-the-Monitor-data/" data-id="cj78mky390004vs6s9i4floty" class="article-share-link">Delen</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/monitor/">monitor</a></li></ul>
@@ -148,10 +150,19 @@
     
 <nav id="article-nav">
   
+    <a href="/2017/09/01/Monitoring-Performance-of-Container/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Nieuwer</strong>
+      <div class="article-nav-title">
+        
+          容器监控(一)
+        
+      </div>
+    </a>
   
-    <a href="/2017/09/04/the-Foundation-of-Prometheus/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">Prometheus基础</div>
+  
+    <a href="/2017/09/01/the-Foundation-of-Prometheus/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Ouder</strong>
+      <div class="article-nav-title">Prometheus基础（三）</div>
     </a>
   
 </nav>
@@ -165,9 +176,9 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Categories</h3>
+    <h3 class="widget-title">Categorieën</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/容器性能监控/">容器性能监控</a></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Monitoring-Performance-of-Container/">Monitoring-Performance-of-Container</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/容器监控/">容器监控</a></li></ul>
     </div>
   </div>
 
@@ -175,7 +186,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Tags</h3>
+    <h3 class="widget-title">Labels</h3>
     <div class="widget">
       <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/monitor/">monitor</a></li></ul>
     </div>
@@ -194,7 +205,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
+    <h3 class="widget-title">Archieven</h3>
     <div class="widget">
       <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li></ul>
     </div>
@@ -204,28 +215,28 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
+    <h3 class="widget-title">Recente berichten</h3>
     <div class="widget">
       <ul>
         
           <li>
-            <a href="/2017/09/04/Custom-the-Monitor-data/">自定义监控数据</a>
-          </li>
-        
-          <li>
-            <a href="/2017/09/04/the-Foundation-of-Prometheus/">Prometheus基础</a>
-          </li>
-        
-          <li>
-            <a href="/2017/09/04/Building-and-Using-Monitor-System/">监控系统的搭建和使用</a>
-          </li>
-        
-          <li>
-            <a href="/2017/09/04/Monitoring-Performance-of-Container/">容器性能监控</a>
+            <a href="/2017/09/04/Building-and-Using-Monitor-System/">监控系统的搭建和使用（二）</a>
           </li>
         
           <li>
             <a href="/2017/09/03/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2017/09/01/Monitoring-Performance-of-Container/">容器监控(一)</a>
+          </li>
+        
+          <li>
+            <a href="/2017/09/01/Custom-the-Monitor-data/">自定义监控数据（四）</a>
+          </li>
+        
+          <li>
+            <a href="/2017/09/01/the-Foundation-of-Prometheus/">Prometheus基础（三）</a>
           </li>
         
       </ul>

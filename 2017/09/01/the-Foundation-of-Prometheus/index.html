@@ -3,20 +3,20 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Prometheus基础 | Hexo</title>
+  <title>Prometheus基础（三） | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="prometheus的架构prometheus从目标主机或者从push-gateway拉取数据，存在本地文件系统并根据recordRules配置文件计算聚合数据或者根据alertRules计算是否发送预警。grafana可以直接使用prometheus提供的api发送promQL查询时序数据。 prometheus的数据模型prometheus将相同的 metrics(指标名称) 和 labels">
+  <meta name="description" content="作者：刘志林 萧超杰 朱枫翔  prometheus的架构prometheus从目标主机或者从push-gateway拉取数据，存在本地文件系统并根据recordRules配置文件计算聚合数据或者根据alertRules计算是否发送预警。grafana可以直接使用prometheus提供的api发送promQL查询时序数据。 prometheus的数据模型prometheus将相同的 metric">
 <meta name="keywords" content="container,prometheus,monitor">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Prometheus基础">
-<meta property="og:url" content="http://yoursite.com/2017/09/04/the-Foundation-of-Prometheus/index.html">
+<meta property="og:title" content="Prometheus基础（三）">
+<meta property="og:url" content="http://yoursite.com/2017/09/01/the-Foundation-of-Prometheus/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="prometheus的架构prometheus从目标主机或者从push-gateway拉取数据，存在本地文件系统并根据recordRules配置文件计算聚合数据或者根据alertRules计算是否发送预警。grafana可以直接使用prometheus提供的api发送promQL查询时序数据。 prometheus的数据模型prometheus将相同的 metrics(指标名称) 和 labels">
+<meta property="og:description" content="作者：刘志林 萧超杰 朱枫翔  prometheus的架构prometheus从目标主机或者从push-gateway拉取数据，存在本地文件系统并根据recordRules配置文件计算聚合数据或者根据alertRules计算是否发送预警。grafana可以直接使用prometheus提供的api发送promQL查询时序数据。 prometheus的数据模型prometheus将相同的 metric">
 <meta property="og:image" content="http://ovqidxh71.bkt.clouddn.com/architecture.svg">
-<meta property="og:updated_time" content="2017-09-05T07:48:17.000Z">
+<meta property="og:updated_time" content="2017-09-06T06:05:21.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Prometheus基础">
-<meta name="twitter:description" content="prometheus的架构prometheus从目标主机或者从push-gateway拉取数据，存在本地文件系统并根据recordRules配置文件计算聚合数据或者根据alertRules计算是否发送预警。grafana可以直接使用prometheus提供的api发送promQL查询时序数据。 prometheus的数据模型prometheus将相同的 metrics(指标名称) 和 labels">
+<meta name="twitter:title" content="Prometheus基础（三）">
+<meta name="twitter:description" content="作者：刘志林 萧超杰 朱枫翔  prometheus的架构prometheus从目标主机或者从push-gateway拉取数据，存在本地文件系统并根据recordRules配置文件计算聚合数据或者根据alertRules计算是否发送预警。grafana可以直接使用prometheus提供的api发送promQL查询时序数据。 prometheus的数据模型prometheus将相同的 metric">
 <meta name="twitter:image" content="http://ovqidxh71.bkt.clouddn.com/architecture.svg">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
@@ -57,7 +57,7 @@
         
           <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Zoeken"></a>
       </nav>
       <div id="search-form-wrap">
         <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
@@ -68,12 +68,12 @@
       <div class="outer">
         <section id="main"><article id="post-the-Foundation-of-Prometheus" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2017/09/04/the-Foundation-of-Prometheus/" class="article-date">
-  <time datetime="2017-09-04T06:57:18.000Z" itemprop="datePublished">2017-09-04</time>
+    <a href="/2017/09/01/the-Foundation-of-Prometheus/" class="article-date">
+  <time datetime="2017-09-01T00:00:00.000Z" itemprop="datePublished">2017-09-01</time>
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/容器性能监控/">容器性能监控</a>
+    <a class="article-category-link" href="/categories/容器监控/">容器监控</a>
   </div>
 
   </div>
@@ -84,7 +84,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Prometheus基础
+      Prometheus基础（三）
     </h1>
   
 
@@ -92,10 +92,12 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="prometheus的架构"><a href="#prometheus的架构" class="headerlink" title="prometheus的架构"></a>prometheus的架构</h2><p><img src="http://ovqidxh71.bkt.clouddn.com/architecture.svg" alt="architecture.svg"><br>prometheus从目标主机或者从push-gateway拉取数据，存在本地文件系统并根据recordRules配置文件计算聚合数据或者根据alertRules计算是否发送预警。grafana可以直接使用prometheus提供的api发送promQL查询时序数据。</p>
+        <p align="center">作者：刘志林 萧超杰 朱枫翔</p>
+
+<h2 id="prometheus的架构"><a href="#prometheus的架构" class="headerlink" title="prometheus的架构"></a>prometheus的架构</h2><p><img src="http://ovqidxh71.bkt.clouddn.com/architecture.svg" alt="architecture.svg"><br>prometheus从目标主机或者从push-gateway拉取数据，存在本地文件系统并根据recordRules配置文件计算聚合数据或者根据alertRules计算是否发送预警。grafana可以直接使用prometheus提供的api发送promQL查询时序数据。</p>
 <h2 id="prometheus的数据模型"><a href="#prometheus的数据模型" class="headerlink" title="prometheus的数据模型"></a>prometheus的数据模型</h2><p><strong>prometheus</strong>将相同的 metrics(指标名称) 和 labels(一个或多个标签) 组成一条时间序列</p>
-<p><strong>metrics</strong>一般是给监测对象起一个名字。</p>
-<p><strong>labels</strong>一般是给监测对象提供一些额外信息的键值对，对一条时间序列不同维度的识别，promQL将通过这些标签很容易的过滤和聚合这些时间序列数据。</p>
+<p><strong><a href="https://prometheus.io/docs/concepts/data_model/" target="_blank" rel="external">metrics</a></strong>一般是给监测对象起一个名字。</p>
+<p><strong><a href="https://prometheus.io/docs/concepts/data_model/" target="_blank" rel="external">labels</a></strong>一般是给监测对象提供一些额外信息的键值对，对一条时间序列不同维度的识别，promQL将通过这些标签很容易的过滤和聚合这些时间序列数据。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">api\_http\_requests_total&#123;method=&quot;POST&quot;, handler=&quot;/messages&quot;&#125;</div></pre></td></tr></table></figure>
 <p>存入数据库中时还会自动为它添加一个时间戳标记，所以一个时序序列是大量不同时间的相同指标相同标签的数据集合。</p>
 <p>如果以传统数据库的理解来看这条语句，则可以考虑 http_requests_total是表名，标签是字段，而timestamp是主键，还有一个float64字段是值了。（Prometheus里面所有值都是按float64存储）</p>
@@ -143,7 +145,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">count(http_requests_total)</div></pre></td></tr></table></figure>
 <p>结果返回值为3.</p>
 <h2 id="promQL高级"><a href="#promQL高级" class="headerlink" title="promQL高级"></a>promQL高级</h2><p>我们已经对promQL已经有了一定程度的了解，但是如果我们想使用的更加得心应手，则还需要对promQL有更加深入的了解。</p>
-<h3 id="data-types"><a href="#data-types" class="headerlink" title="data types"></a>data types</h3><p>在Prometheus中有3种数据类型</p>
+<h3 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a><a href="https://prometheus.io/docs/concepts/metric_types/" target="_blank" rel="external">数据类型</a></h3><p>在Prometheus中有3种数据类型</p>
 <ul>
 <li><strong>Instant vector</strong> 即时向量，你可以看一个时间点的时序序列，它反映的是一个时间点不同标签的值组成的时间序列，如</li>
 </ul>
@@ -170,7 +172,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/09/04/the-Foundation-of-Prometheus/" data-id="cj77b07nu0006n06sxdhlvtka" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/09/01/the-Foundation-of-Prometheus/" data-id="cj78mky3k000gvs6snlkmghnn" class="article-share-link">Delen</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/monitor/">monitor</a></li></ul>
@@ -181,20 +183,15 @@
     
 <nav id="article-nav">
   
-    <a href="/2017/09/04/Custom-the-Monitor-data/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
+    <a href="/2017/09/01/Custom-the-Monitor-data/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Nieuwer</strong>
       <div class="article-nav-title">
         
-          自定义监控数据
+          自定义监控数据（四）
         
       </div>
     </a>
   
-  
-    <a href="/2017/09/04/Building-and-Using-Monitor-System/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">监控系统的搭建和使用</div>
-    </a>
   
 </nav>
 
@@ -207,9 +204,9 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Categories</h3>
+    <h3 class="widget-title">Categorieën</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/容器性能监控/">容器性能监控</a></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Monitoring-Performance-of-Container/">Monitoring-Performance-of-Container</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/容器监控/">容器监控</a></li></ul>
     </div>
   </div>
 
@@ -217,7 +214,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Tags</h3>
+    <h3 class="widget-title">Labels</h3>
     <div class="widget">
       <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/monitor/">monitor</a></li></ul>
     </div>
@@ -236,7 +233,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
+    <h3 class="widget-title">Archieven</h3>
     <div class="widget">
       <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li></ul>
     </div>
@@ -246,28 +243,28 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
+    <h3 class="widget-title">Recente berichten</h3>
     <div class="widget">
       <ul>
         
           <li>
-            <a href="/2017/09/04/Custom-the-Monitor-data/">自定义监控数据</a>
-          </li>
-        
-          <li>
-            <a href="/2017/09/04/the-Foundation-of-Prometheus/">Prometheus基础</a>
-          </li>
-        
-          <li>
-            <a href="/2017/09/04/Building-and-Using-Monitor-System/">监控系统的搭建和使用</a>
-          </li>
-        
-          <li>
-            <a href="/2017/09/04/Monitoring-Performance-of-Container/">容器性能监控</a>
+            <a href="/2017/09/04/Building-and-Using-Monitor-System/">监控系统的搭建和使用（二）</a>
           </li>
         
           <li>
             <a href="/2017/09/03/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2017/09/01/Monitoring-Performance-of-Container/">容器监控(一)</a>
+          </li>
+        
+          <li>
+            <a href="/2017/09/01/Custom-the-Monitor-data/">自定义监控数据（四）</a>
+          </li>
+        
+          <li>
+            <a href="/2017/09/01/the-Foundation-of-Prometheus/">Prometheus基础（三）</a>
           </li>
         
       </ul>
