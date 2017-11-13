@@ -95,13 +95,13 @@
 
 
 
-<meta name="description" content="自定义监控数据需求是永无止境的，我们一定要在正确的时间做正确的事情。prometheus作为容器监控系统，它的功能是强大的，我们可以通过它提供的客户端开发包，自定义我们需要监控的性能数据；我们也可以通过它提供的file_sd_configs动态配置监控的地址，动态增加监控的服务，这正好解决了前面章节我们提出的2个明确的需求。下面就让我们开启这一场神奇的解决问题和coding之旅吧。 prometh">
+<meta name="description" content="自定义监控数据需求是永无止境的，我们一定要在正确的时间做正确的事情。prometheus作为容器监控系统，它的功能是强大的，我们可以通过它提供的客户端开发包，自定义我们需要监控的性能数据；我们也可以通过它提供的file_sd_configs动态配置监控的地址，动态增加监控的服务，这正好解决了前面章节我们提出的2个明确的需求。下面就让我们开启这一场神奇的解决问题和coding之旅吧。 prome">
 <meta name="keywords" content="container,prometheus,monitor">
 <meta property="og:type" content="article">
 <meta property="og:title" content="自定义监控数据（四）">
 <meta property="og:url" content="http://VelementsMount.github.io/2017/09/01/Custom-the-Monitor-data/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="自定义监控数据需求是永无止境的，我们一定要在正确的时间做正确的事情。prometheus作为容器监控系统，它的功能是强大的，我们可以通过它提供的客户端开发包，自定义我们需要监控的性能数据；我们也可以通过它提供的file_sd_configs动态配置监控的地址，动态增加监控的服务，这正好解决了前面章节我们提出的2个明确的需求。下面就让我们开启这一场神奇的解决问题和coding之旅吧。 prometh">
+<meta property="og:description" content="自定义监控数据需求是永无止境的，我们一定要在正确的时间做正确的事情。prometheus作为容器监控系统，它的功能是强大的，我们可以通过它提供的客户端开发包，自定义我们需要监控的性能数据；我们也可以通过它提供的file_sd_configs动态配置监控的地址，动态增加监控的服务，这正好解决了前面章节我们提出的2个明确的需求。下面就让我们开启这一场神奇的解决问题和coding之旅吧。 prome">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://ovqidxh71.bkt.clouddn.com/Prometheus-Grafana.png">
 <meta property="og:image" content="http://ovqidxh71.bkt.clouddn.com/Metrics-Json.png">
@@ -113,10 +113,10 @@
 <meta property="og:image" content="http://ovqidxh71.bkt.clouddn.com/First_CPU_Load.png">
 <meta property="og:image" content="http://ovqidxh71.bkt.clouddn.com/Second_CPU_Load.png">
 <meta property="og:image" content="http://ovqidxh71.bkt.clouddn.com/Last_CPU_Load.png">
-<meta property="og:updated_time" content="2017-09-06T10:14:29.000Z">
+<meta property="og:updated_time" content="2017-11-13T02:23:47.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="自定义监控数据（四）">
-<meta name="twitter:description" content="自定义监控数据需求是永无止境的，我们一定要在正确的时间做正确的事情。prometheus作为容器监控系统，它的功能是强大的，我们可以通过它提供的客户端开发包，自定义我们需要监控的性能数据；我们也可以通过它提供的file_sd_configs动态配置监控的地址，动态增加监控的服务，这正好解决了前面章节我们提出的2个明确的需求。下面就让我们开启这一场神奇的解决问题和coding之旅吧。 prometh">
+<meta name="twitter:description" content="自定义监控数据需求是永无止境的，我们一定要在正确的时间做正确的事情。prometheus作为容器监控系统，它的功能是强大的，我们可以通过它提供的客户端开发包，自定义我们需要监控的性能数据；我们也可以通过它提供的file_sd_configs动态配置监控的地址，动态增加监控的服务，这正好解决了前面章节我们提出的2个明确的需求。下面就让我们开启这一场神奇的解决问题和coding之旅吧。 prome">
 <meta name="twitter:image" content="http://ovqidxh71.bkt.clouddn.com/Prometheus-Grafana.png">
 
 
@@ -460,7 +460,9 @@
       
 
       
-        <h2 id="自定义监控数据"><a href="#自定义监控数据" class="headerlink" title="自定义监控数据"></a>自定义监控数据</h2><p>需求是永无止境的，我们一定要在正确的时间做正确的事情。prometheus作为容器监控系统，它的功能是强大的，我们可以通过它提供的客户端开发包，自定义我们需要监控的性能数据；我们也可以通过它提供的<a href="https://prometheus.io/docs/operating/configuration/#%3Cfile_sd_config%3E" target="_blank" rel="external">file_sd_configs</a>动态配置监控的地址，动态增加监控的服务，这正好解决了前面章节我们提出的2个明确的需求。下面就让我们开启这一场神奇的解决问题和coding之旅吧。</p>
+        <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="0" height="0" src="//music.163.com/outchain/player?type=2&id=38592976&auto=1&height=66"></iframe>
+
+<h2 id="自定义监控数据"><a href="#自定义监控数据" class="headerlink" title="自定义监控数据"></a>自定义监控数据</h2><p>需求是永无止境的，我们一定要在正确的时间做正确的事情。prometheus作为容器监控系统，它的功能是强大的，我们可以通过它提供的客户端开发包，自定义我们需要监控的性能数据；我们也可以通过它提供的<a href="https://prometheus.io/docs/operating/configuration/#%3Cfile_sd_config%3E" target="_blank" rel="external">file_sd_configs</a>动态配置监控的地址，动态增加监控的服务，这正好解决了前面章节我们提出的2个明确的需求。下面就让我们开启这一场神奇的解决问题和coding之旅吧。</p>
 <h3 id="prometheus-grafana-zuul的监控"><a href="#prometheus-grafana-zuul的监控" class="headerlink" title="prometheus+grafana+zuul的监控"></a>prometheus+grafana+zuul的监控</h3><p>我们后端的微服务采用的是springcloud支撑的微服务架构，我们的网关为zuul，所以任何请求都会经过zuul来做转发，我们监控的思路是，在zuul网关层增加一个过滤器，记录每个请求的模块，每个请求的路径，每个请求的方法，每个请求的响应时间，每个请求的次数。然后将这些数据导入到prometheus，grafana再将prometheus中的数据以图表的形式展示出来，如下图<img src="http://ovqidxh71.bkt.clouddn.com/Prometheus-Grafana.png" alt="Prometheus-Grafana.png">。这个问题的难点在于怎样将zuul中的度量数据导出和怎样在grafana中以合适的方式展现。下面我们就来探讨这2个问题的解决方法。</p>
 <h4 id="导出zuul中的度量数据"><a href="#导出zuul中的度量数据" class="headerlink" title="导出zuul中的度量数据"></a>导出zuul中的度量数据</h4><p>我们使用的是spring框架，spring框架中已经有了一个spring-acurator模块，引入这个模块，我们就可以在/metrics的路径下得到json格式的度量数据<img src="http://ovqidxh71.bkt.clouddn.com/Metrics-Json.png" alt="Metrics-Json.png">，我们可以使用spring-acurator自带的CounterService和GuageService将我们需要记录的数据记录到/metrics<br>路径下。但是我们知道prometheus不接受json格式的数据，它接受的是纯文本格式的数据,例如<img src="http://ovqidxh71.bkt.clouddn.com/Prometheus-metrics.png" alt="Prometheus-metrics.png">，如何将json格式的数据转换为prometheus接受的纯文本格式我们可以参考Johan Zietsman写的<a href="http://blog.monkey.codes/actuator-and-prometheus/" target="_blank" rel="external">Actuator and Prometheus</a>,我们自定义了spring-acurator一个新的endpoint：/prometheus,在这个页面我们导出了prometheus可以接受的度量数据，似乎一切都很美好，但是我们深入的应用之后发现，spring-acurator提供的CounterService和GuageService实在是太简陋了，它完全无法和prometheus提供的客户端的包相比</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">compile(&apos;io.prometheus:simpleclient:0.0.26&apos;)</div><div class="line">compile(&apos;io.prometheus:simpleclient_common:0.0.26&apos;)</div></pre></td></tr></table></figure>
@@ -574,8 +576,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/09/01/Building-and-Using-Monitor-System/" rel="next" title="监控系统的搭建和使用（二）">
-                <i class="fa fa-chevron-left"></i> 监控系统的搭建和使用（二）
+              <a href="/2017/09/01/the-Foundation-of-Prometheus/" rel="next" title="Prometheus基础（三）">
+                <i class="fa fa-chevron-left"></i> Prometheus基础（三）
               </a>
             
           </div>
